@@ -1,4 +1,4 @@
-if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var container, raycaster, stats;
 
@@ -168,7 +168,7 @@ function init() {
 	composer.addPass( renderPass );
 
 	var vh = 1.4, vl = 1.2;
-
+	/*
 	var colorCorrectionPass = new THREE.ShaderPass( THREE.ColorCorrectionShader );
 	colorCorrectionPass.uniforms[ "powRGB" ].value = new THREE.Vector3( vh, vh, vh );
 	colorCorrectionPass.uniforms[ "mulRGB" ].value = new THREE.Vector3( vl, vl, vl );
@@ -177,7 +177,7 @@ function init() {
 	var vignettePass = new THREE.ShaderPass( THREE.VignetteShader );
 	vignettePass.uniforms[ "darkness" ].value = 1.0;
 	composer.addPass( vignettePass );
-
+	*/
 	composer.addPass( copyPass );
 	copyPass.renderToScreen = true;
 
