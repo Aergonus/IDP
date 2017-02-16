@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Blind Cow</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="description" content="A 3-D Port of Find the Invisible Cow - Made by Kangqiao Lei">
+		<link rel="shortcut icon" type="image/png" href="media/favicon.png"/>
+		<link rel="icon" type="image/x-icon" href="favicon.ico">
+		<link type="text/css" rel="stylesheet" href="css/stylesheet.css"/>
+	</head>
+	
+	<script type="text/javascript"> 
+		var debug = "It works!"; 
+		//document.getElementById("debug").textContent += "Foo blah bar";
+		console.log("Debug Text:" + debug);
+	</script>
+	
+	<body>
+		<div id="info">
+			moo.
+		</div>
+		<!--<a href="http://threejs.org" target="_blank">Three.JS</a> - Exported by <a href="https://github.com/sunag/sea3d" style="color:#FFFFFF" target="_blank">SEA3D Exporter</a> and edited by <a href="https://github.com/sunag/sea3d" style="color:#FFFFFF" target="_blank">SEA3D Studio</a> -->
+		<div id="blocker">
+
+			<div id="instructions">
+				<span style="font-size:40px">Click to play</span>
+				<br />
+				W, A, S, D, Space, Shift = Move Forward, Strafe Left, Move Backward, Strafe Right, Fly up, Drop Down 
+				<br />
+				MOUSE = Look around, P = pause
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="js/three.min.js"></script>
+
+		<script type="text/javascript" src="js/controls/PointerLockControls.js"></script>
+
+		<script type="text/javascript" src="js/postprocessing/EffectComposer.js"></script>
+		<script type="text/javascript" src="js/postprocessing/RenderPass.js"></script>
+		<script type="text/javascript" src="js/postprocessing/ShaderPass.js"></script>
+		<script type="text/javascript" src="js/postprocessing/MaskPass.js"></script>
+		<!--
+		<script src="js/shaders/CopyShader.js"></script>
+		<script src="js/shaders/ColorCorrectionShader.js"></script>
+		<script src="js/shaders/VignetteShader.js"></script>
+		-->
+		
+		<script type="text/javascript" src="js/loaders/sea3d/SEA3D.js"></script>
+		<script type="text/javascript" src="js/loaders/sea3d/SEA3DLZMA.js"></script>
+		<script type="text/javascript" src="js/loaders/sea3d/SEA3DLoader.js"></script>
+
+		<script type="text/javascript" src="js/Detector.js"></script>
+		<script type="text/javascript" src="js/stats.min.js"></script>
+		
+		<script type="text/javascript" src="js/EventListeners.js"></script>
+		<script type="text/javascript" src='js/game.js'></script>
+		
+		<script>
+
+
+		</script>
+		<div id="debug"></div>
+	</body>
+</html>
