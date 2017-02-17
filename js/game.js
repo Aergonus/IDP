@@ -60,7 +60,7 @@ loader.onProgress = function( e ) {
 	console.log("progress percent", e.progress * 100); // 0% at 100%
 }
 
-loader.load( './media/cow.sea' );
+loader.load( './media/cow.tjs.sea' );
 
 //
 
