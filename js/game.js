@@ -55,7 +55,12 @@ loader.onComplete = function( e ) {
 
 };
 
-loader.load( './models/sea3d/sound.tjs.sea' );
+loader.onProgress = function( e ) {
+	console.log("progress type", e.type); // download or local processing
+	console.log("progress percent", e.progress * 100); // 0% at 100%
+}
+
+loader.load( './media/cow.sea' );
 
 //
 
