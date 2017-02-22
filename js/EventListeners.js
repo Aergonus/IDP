@@ -18,7 +18,6 @@ function onWindowResize(event)
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 
-	composer.setSize( window.innerWidth, window.innerHeight );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 /*	if(min < canvas.width || min < canvas.height)
 		gl.viewport(0,canvas.height-min, min, min); 
