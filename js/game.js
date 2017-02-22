@@ -295,9 +295,9 @@ function animateCamera( delta ) {
 	var scale = 1400, maxf = 5, minf = -2.5, maxa = 50;
 	
 	// Friction from space particles 
-	velocity.x -= velocity.x * Math.floor(Math.random() * (maxf - minf + 1)) + minf * delta;
-	velocity.y -= velocity.y * Math.floor(Math.random() * (maxf - minf + 1)) + minf * delta;
-	velocity.z -= velocity.z * Math.floor(Math.random() * (maxf - minf + 1)) + minf * delta;
+	velocity.x -= velocity.x * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
+	velocity.y -= velocity.y * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
+	velocity.z -= velocity.z * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
 	
 	// Player Move
 	if ( moveForward ) acceleration.z -= scale * delta;
