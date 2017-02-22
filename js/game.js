@@ -14,6 +14,9 @@ var soundArea, collisionArea, lightArea, lightOutside;
 init();
 animate();
 
+
+var objects = [];
+
 /*
 loader.onComplete = function( e ) {
 
