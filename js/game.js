@@ -2,7 +2,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var container, raycaster, stats;
 
-var camera, scene, renderer, composer, controls, controlsEnabled, velocity;
+var camera, scene, renderer, composer, controls, controlsEnabled, velocity, acceleration;
 var blocker, instructions;
 
 var loader;
@@ -122,6 +122,39 @@ function initPointerLock() {
 
 }
 
+// 
+if (window.hasOwnProperty('AudioContext') && !window.hasOwnProperty('webkitAudioContext'))
+    window.webkitAudioContext = AudioContext;
+
+var context = new webkitAudioContext();
+
+var Sound = function ( radius, volume ) {
+
+  var source = context.createBufferSource();
+  var osc = context.createOscillator();
+  var oscGain =context.createGainNode();
+  osc.type = 0;
+
+  osc.connect(oscGain);
+  oscGain.connect(context.destination);
+  osc.noteOn(0); 
+  osc.frequency.value = 500;
+  oscGain.gain.value = 0;
+
+  this.position = new THREE.Vector3();
+
+  this.update = function ( camera ) {
+    var distance = this.position.distanceTo( camera.position );
+    if ( distance <= radius ) {
+      oscGain.gain.value = volume * ( 1 - distance / radius );
+
+      material_sky.color.setHSL(distance / radius / 2 ,0.666,0.666);
+    } else {
+      oscGain.gain.value = 0;
+    }
+  }
+}
+
 function init() {
 	initPointerLock();
 	
@@ -131,6 +164,7 @@ function init() {
 	scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 	
 	velocity = new THREE.Vector3();
+	acceleration = new THREE.Vector3();
 
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
@@ -252,22 +286,32 @@ function init() {
 
 function animateCamera( delta ) {
 
-	var scale = 1400;
+	var scale = 1400, maxf = 25, minf = -5, maxa = 50;
 	
-	// Friction 
-	velocity.x -= velocity.x * 10.0 * delta;
-	velocity.y -= velocity.y * 10.0 * delta;
-	velocity.z -= velocity.z * 10.0 * delta;
-
+	// Friction from space particles 
+	velocity.x -= velocity.x * Math.floor(Math.random() * (maxf - minf + 1)) + minf * delta;
+	velocity.y -= velocity.y * Math.floor(Math.random() * (maxf - minf + 1)) + minf * delta;
+	velocity.z -= velocity.z * Math.floor(Math.random() * (maxf - minf + 1)) + minf * delta;
+	
 	// Player Move
-	if ( moveForward ) velocity.z -= scale * delta;
-	if ( moveBackward ) velocity.z += scale * delta;
+	if ( moveForward ) acceleration.z -= scale * delta;
+	if ( moveBackward ) acceleration.z += scale * delta;
 
-	if ( moveLeft ) velocity.x -= scale * delta;
-	if ( moveRight ) velocity.x += scale * delta;
+	if ( moveLeft ) acceleration.x -= scale * delta;
+	if ( moveRight ) acceleration.x += scale * delta;
 
-	if ( moveUp ) velocity.y += scale * delta;
-	if ( moveDown ) velocity.y -= scale * delta;
+	if ( moveUp ) acceleration.y += scale * delta;
+	if ( moveDown ) acceleration.y -= scale * delta;
+	
+	// Limit acc
+	acceleration.x = acceleration.x > 0 ? Math.min(maxa, acceleration.x) : Math.max(maxa, acceleration.x);
+	acceleration.y = acceleration.y > 0 ? Math.min(maxa, acceleration.y) : Math.max(maxa, acceleration.y);
+	acceleration.z = acceleration.z > 0 ? Math.min(maxa, acceleration.z) : Math.max(maxa, acceleration.z);
+
+	// Add acc
+	velocity.x += acceleration.x;
+	velocity.y += acceleration.y;
+	velocity.z += acceleration.z;
 	
 	// Shift camera
 	controls.getObject().translateX( velocity.x * delta );
