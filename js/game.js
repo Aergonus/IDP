@@ -1,10 +1,11 @@
-		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var container, raycaster, stats;
 
 var camera, scene, renderer, composer, controls, velocity;
 var blocker, instructions;
-var moveLeft, moveForward, moveBackward, moveRight;
+var moveLeft, moveForward, moveBackward, moveRight, moveUp, moveDown;
+
 var loader;
 var audioListener, soundFilter, soundAreaAnalyser, soundOutsideAnalyser;
 var soundArea, collisionArea, lightArea, lightOutside;
@@ -12,18 +13,9 @@ var soundArea, collisionArea, lightArea, lightOutside;
 // Initialize Three.JS
 
 init();
+animate();
 
-//
-// SEA3D Loader
-//
-
-loader = new THREE.SEA3D( {
-
-	autoPlay : true, // Auto play animations
-	container : scene // Container to add models
-
-} );
-
+/*
 loader.onComplete = function( e ) {
 
 	audioListener = loader.audioListener;
@@ -54,15 +46,9 @@ loader.onComplete = function( e ) {
 	animate();
 
 };
+*/
 
-loader.onProgress = function( e ) {
-	console.log("progress type", e.type); // download or local processing
-	console.log("progress percent", e.progress * 100); // 0% at 100%
-}
-
-loader.load( './media/cow.tjs.sea' );
-
-//
+// Acquire Pointer Lock
 
 function initPointerLock() {
 
@@ -139,6 +125,8 @@ function init() {
 	raycaster = new THREE.Raycaster();
 
 	scene = new THREE.Scene();
+	scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+	
 	velocity = new THREE.Vector3();
 
 	container = document.createElement( 'div' );
@@ -154,6 +142,78 @@ function init() {
 	controls.getObject().translateX( 250 );
 	controls.getObject().translateZ( 250 );
 	
+
+				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+
+				// floor
+
+				geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
+				geometry.rotateX( - Math.PI / 2 );
+
+				for ( var i = 0, l = geometry.vertices.length; i < l; i ++ ) {
+
+					var vertex = geometry.vertices[ i ];
+					vertex.x += Math.random() * 20 - 10;
+					vertex.y += Math.random() * 2;
+					vertex.z += Math.random() * 20 - 10;
+
+				}
+
+				for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
+
+					var face = geometry.faces[ i ];
+					face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+					face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+					face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+
+				}
+
+				material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
+
+				mesh = new THREE.Mesh( geometry, material );
+				scene.add( mesh );
+
+				// objects
+
+				geometry = new THREE.BoxGeometry( 20, 20, 20 );
+
+				for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
+
+					var face = geometry.faces[ i ];
+					face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+					face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+					face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+
+				}
+
+				for ( var i = 0; i < 500; i ++ ) {
+
+					material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
+					mesh.position.y = Math.floor( Math.random() * 20 ) * 20 + 10;
+					mesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
+					scene.add( mesh );
+
+					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+
+					objects.push( mesh );
+
+				}
+
+				//
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setClearColor( 0x333333, 1 );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				//
+				stats = new Stats();
+				container.appendChild( stats.dom );
+	/*
 	//Renderer:
 	renderer = Detector.webgl? new THREE.WebGLRenderer({ antialias: true }): errorMessage();
 	renderer.setPixelRatio( window.devicePixelRatio );
@@ -173,18 +233,11 @@ function init() {
 	composer.addPass( renderPass );
 
 	var vh = 1.4, vl = 1.2;
-	/*
-	var colorCorrectionPass = new THREE.ShaderPass( THREE.ColorCorrectionShader );
-	colorCorrectionPass.uniforms[ "powRGB" ].value = new THREE.Vector3( vh, vh, vh );
-	colorCorrectionPass.uniforms[ "mulRGB" ].value = new THREE.Vector3( vl, vl, vl );
-	composer.addPass( colorCorrectionPass );
 
-	var vignettePass = new THREE.ShaderPass( THREE.VignetteShader );
-	vignettePass.uniforms[ "darkness" ].value = 1.0;
-	composer.addPass( vignettePass );
-	*/
 	composer.addPass( copyPass );
 	copyPass.renderToScreen = true;
+	
+	*/
 
 	// events
 
@@ -197,11 +250,13 @@ function init() {
 function animateCamera( delta ) {
 
 	var scale = 1400;
-
+	
+	// Friction 
 	velocity.x -= velocity.x * 10.0 * delta;
 	velocity.y -= velocity.y * 10.0 * delta;
 	velocity.z -= velocity.z * 10.0 * delta;
 
+	// Player Move
 	if ( moveForward ) velocity.z -= scale * delta;
 	if ( moveBackward ) velocity.z += scale * delta;
 
@@ -211,16 +266,16 @@ function animateCamera( delta ) {
 	if ( moveUp ) velocity.y -= scale * delta;
 	if ( moveDown ) velocity.y += scale * delta;
 	
+	// Shift camera
 	controls.getObject().translateX( velocity.x * delta );
 	controls.getObject().translateY( velocity.y * delta );
 	controls.getObject().translateZ( velocity.z * delta );
-
 }
 
 var clock = new THREE.Clock();
 var audioPos = new THREE.Vector3();
 var audioRot = new THREE.Euler();
-
+/*
 function updateSoundFilter() {
 
 	// difference position between sound and listener
@@ -242,6 +297,7 @@ function updateSoundFilter() {
 	}
 
 }
+*/
 
 //
 
@@ -249,8 +305,9 @@ function animate() {
 
 	var delta = clock.getDelta();
 
-	animateCamera( delta );
+	if ( controlsEnabled ) { animateCamera( delta ); }
 
+	/*
 	// Sound3D Spatial Transform Update
 	loader.audioListener.position.copy( audioPos.setFromMatrixPosition( camera.matrixWorld ) );
 	loader.audioListener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
@@ -264,18 +321,20 @@ function animate() {
 
 	// Update SEA3D Animations
 	THREE.SEA3D.AnimationHandler.update( delta );
-
-	render( delta );
+	*/
+	
+	renderer.render( scene, camera );
 
 	stats.update();
 
 	requestAnimationFrame( animate );
 
 }
-
+/*
 function render( delta ) {
 
 	//renderer.render( scene, camera );
 	composer.render( delta );
 
 }
+*/
