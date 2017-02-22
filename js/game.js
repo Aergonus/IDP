@@ -292,7 +292,7 @@ function init() {
 
 function animateCamera( delta ) {
 
-	var scale = 1400, maxf = 5, minf = 0, maxa = 50;
+	var scale = 10, maxf = 5, minf = 0, maxa = 50;
 	
 	// Friction/Drift from space particles 
 	velocity.x -= velocity.x * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
@@ -310,22 +310,21 @@ function animateCamera( delta ) {
 	if ( moveDown ) acceleration.y -= scale * delta;
 	
 	// Limit acc
-	acceleration.x = acceleration.x >= 0 ? Math.min(maxa, acceleration.x) : Math.max(maxa, acceleration.x);
-	acceleration.y = acceleration.y >= 0 ? Math.min(maxa, acceleration.y) : Math.max(maxa, acceleration.y);
-	acceleration.z = acceleration.z >= 0 ? Math.min(maxa, acceleration.z) : Math.max(maxa, acceleration.z);
+	acceleration.x = acceleration.x >= 0 ? Math.min(maxa, acceleration.x) : Math.max(-maxa, acceleration.x);
+	acceleration.y = acceleration.y >= 0 ? Math.min(maxa, acceleration.y) : Math.max(-maxa, acceleration.y);
+	acceleration.z = acceleration.z >= 0 ? Math.min(maxa, acceleration.z) : Math.max(-maxa, acceleration.z);
 
 	// Add acc
-	/*
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
 	velocity.z += acceleration.z;
-	*/
+	
 	// Shift camera
 	controls.getObject().translateX( velocity.x * delta );
 	controls.getObject().translateY( velocity.y * delta );
 	controls.getObject().translateZ( velocity.z * delta );
 	
-	console.log(velocity);
+	//console.log(velocity);
 	console.log(acceleration);
 }
 
