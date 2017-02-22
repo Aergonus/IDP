@@ -122,7 +122,8 @@ function initPointerLock() {
 
 }
 
-// 
+// Audio 
+/*
 if (window.hasOwnProperty('AudioContext') && !window.hasOwnProperty('webkitAudioContext'))
     window.webkitAudioContext = AudioContext;
 
@@ -154,6 +155,7 @@ var Sound = function ( radius, volume ) {
     }
   }
 }
+*/
 
 function init() {
 	initPointerLock();
