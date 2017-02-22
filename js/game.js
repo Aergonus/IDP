@@ -9,9 +9,10 @@ var loader;
 var audioListener, soundFilter, soundAreaAnalyser, soundOutsideAnalyser;
 var soundArea, collisionArea, lightArea, lightOutside;
 
-var objects = [];
+var objects = [], ambientLight;
 
 var clock = new THREE.Clock();
+var ticks = 0;
 
 // Initialize Three.JS
 
@@ -167,7 +168,10 @@ function init() {
 	raycaster = new THREE.Raycaster();
 
 	scene = new THREE.Scene();
-	scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+	scene.fog = new THREE.FogExp2( 0x000000, 0.0025 );
+	
+	ambientLight = new THREE.AmbientLight(0xffffff);
+	scene.add(ambientLight); 
 	
 	velocity = new THREE.Vector3();
 	acceleration = new THREE.Vector3();
@@ -184,6 +188,38 @@ function init() {
 
 	controls.getObject().translateX( 250 );
 	controls.getObject().translateZ( 250 );
+	
+	var listener = new THREE.AudioListener(); // instantiate a listener
+	camera.add( listener ); // add the listener to the camera
+	
+	var sound = new THREE.PositionalAudio( listener );
+	
+	// instantiate a loader
+	var loader = new THREE.AudioLoader();
+
+	// load a resource
+	loader.load(
+		// resource URL
+		'./media/sounds/0.mp3',
+		// Function when resource is loaded
+		function ( audioBuffer ) {
+			// set the audio object buffer to the loaded object
+			sound.setBuffer( audioBuffer );
+			sound.setRefDistance( 20 );
+			sound.setLoop(true);
+
+			// play the audio
+			sound.play();
+		},
+		// Function called when download progresses
+		function ( xhr ) {
+			console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+		},
+		// Function called when download errors
+		function ( xhr ) {
+			console.log( 'An error happened' );
+		}
+	);
 	
 
 				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
@@ -229,7 +265,7 @@ function init() {
 
 				}
 
-				for ( var i = 0; i < 500; i ++ ) {
+				for ( var i = 0; i < 1; i ++ ) {
 
 					material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
@@ -240,6 +276,8 @@ function init() {
 					scene.add( mesh );
 
 					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+					material.transparent = true;
+					material.opacity = 0.01;
 
 					objects.push( mesh );
 
@@ -292,22 +330,26 @@ function init() {
 
 function animateCamera( delta ) {
 
-	var scale = 10, maxf = 5, minf = 0, maxa = 50;
+	var scale = 10, maxf = 10, minf = 3, maxa = 50, edge = 1000;
 	
 	// Friction/Drift from space particles 
 	velocity.x -= velocity.x * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
 	velocity.y -= velocity.y * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
 	velocity.z -= velocity.z * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
 	
-	// Player Move
-	if ( moveForward ) acceleration.z -= scale * delta;
-	if ( moveBackward ) acceleration.z += scale * delta;
-
+	// Player Move with decay
 	if ( moveLeft ) acceleration.x -= scale * delta;
+		else acceleration.x += scale*.01 * delta;
 	if ( moveRight ) acceleration.x += scale * delta;
-
-	if ( moveUp ) acceleration.y += scale * delta;
+		else acceleration.x -= scale*.01 * delta;
 	if ( moveDown ) acceleration.y -= scale * delta;
+		else acceleration.y += scale*.01 * delta;
+	if ( moveUp ) acceleration.y += scale * delta;
+		else acceleration.y -= scale*.01 * delta;
+	if ( moveForward ) acceleration.z -= scale * delta;
+		else acceleration.z += scale*.01 * delta;
+	if ( moveBackward ) acceleration.z += scale * delta;
+		else acceleration.z -= scale*.01 * delta;
 	
 	// Limit acc
 	acceleration.x = acceleration.x >= 0 ? Math.min(maxa, acceleration.x) : Math.max(-maxa, acceleration.x);
@@ -324,8 +366,43 @@ function animateCamera( delta ) {
 	controls.getObject().translateY( velocity.y * delta );
 	controls.getObject().translateZ( velocity.z * delta );
 	
+	if (controls.getObject().position.x > edge) {
+		acceleration.x *= -.35;
+		velocity.x *= -1;
+		controls.getObject().position.setX(edge + velocity.x * delta);
+		console.log("Bounce X");
+	} else if (controls.getObject().position.x < -edge) {
+		acceleration.x *= -.35;
+		velocity.x *= -1;
+		controls.getObject().position.setX(-edge + velocity.x * delta);
+		console.log("Bounce -X");
+	}
+	
+	if (controls.getObject().position.y > edge) {
+		acceleration.y *= -.35;
+		velocity.y *= -1;
+		controls.getObject().position.setY(edge + velocity.y * delta);
+		console.log("Bounce Y");
+	} else if (controls.getObject().position.y < -edge) {
+		acceleration.y *= -.35;
+		velocity.y *= -1;
+		controls.getObject().position.setY(-edge + velocity.y * delta);
+		console.log("Bounce -Y");
+	}
+
+	if (controls.getObject().position.z > edge) {
+		acceleration.z *= -.35;
+		velocity.z *= -1;
+		controls.getObject().position.setZ(edge + velocity.z * delta);
+		console.log("Bounce Z");
+	} else if (controls.getObject().position.z < -edge) {
+		acceleration.z *= -.35;
+		velocity.z *= -1;
+		controls.getObject().position.setZ(-edge + velocity.z * delta);
+		console.log("Bounce -Z");
+	}
 	//console.log(velocity);
-	console.log(acceleration);
+	//console.log(acceleration);
 }
 
 var audioPos = new THREE.Vector3();
@@ -357,7 +434,8 @@ function updateSoundFilter() {
 //
 
 function animate() {
-
+	ticks++;
+	
 	var delta = clock.getDelta();
 
 	if ( controlsEnabled ) { animateCamera( delta ); }
@@ -378,12 +456,20 @@ function animate() {
 	THREE.SEA3D.AnimationHandler.update( delta );
 	*/
 	
+	// Change intensity of ambient light
+	var frequency = .01; // set by distance 
+	var amplitude = 127;
+	var center = 128;
+	var value = Math.sin(frequency*ticks) * amplitude + center;
+	ambientLight.color.set( (value << 16) + (value << 8) + value );
+	//console.log(ambientLight.color);
+	
 	renderer.render( scene, camera );
 
 	stats.update();
 
 	requestAnimationFrame( animate );
-
+	
 }
 /*
 function render( delta ) {
