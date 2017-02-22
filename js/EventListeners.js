@@ -1,3 +1,5 @@
+var moveLeft, moveForward, moveBackward, moveRight, moveUp, moveDown;
+
 function addEventListeners()
 {
     //onWindowResize
