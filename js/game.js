@@ -205,7 +205,7 @@ function init() {
 		function ( audioBuffer ) {
 			// set the audio object buffer to the loaded object
 			sound.setBuffer( audioBuffer );
-			sound.setRefDistance( 20 );
+			sound.setRefDistance( 100 );
 			sound.setLoop(true);
 
 			// play the audio
@@ -273,11 +273,13 @@ function init() {
 					mesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
 					mesh.position.y = Math.floor( Math.random() * 20 ) * 20 + 10;
 					mesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
+					
+					mesh.add(sound);
 					scene.add( mesh );
 
 					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 					material.transparent = true;
-					material.opacity = 0.01;
+					material.opacity = 0.51;
 
 					objects.push( mesh );
 
