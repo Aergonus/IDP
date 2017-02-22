@@ -9,13 +9,12 @@ var loader;
 var audioListener, soundFilter, soundAreaAnalyser, soundOutsideAnalyser;
 var soundArea, collisionArea, lightArea, lightOutside;
 
+var objects = [];
+
 // Initialize Three.JS
 
 init();
 animate();
-
-
-var objects = [];
 
 /*
 loader.onComplete = function( e ) {
