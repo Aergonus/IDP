@@ -72,12 +72,16 @@ function initPointerLock() {
 
 				controlsEnabled = true;
 				controls.enabled = true;
-
+				
+				var delta = clock.getDelta(); // Added to prevent movement
+				
 				blocker.style.display = 'none';
 
 			} else {
 
 				controls.enabled = false;
+				
+				var delta = clock.getDelta(); // Added to prevent movement
 
 				blocker.style.display = '-webkit-box';
 				blocker.style.display = '-moz-box';
@@ -288,7 +292,7 @@ function init() {
 
 function animateCamera( delta ) {
 
-	var scale = 1400, maxf = 25, minf = -5, maxa = 50;
+	var scale = 1400, maxf = 5, minf = -2.5, maxa = 50;
 	
 	// Friction from space particles 
 	velocity.x -= velocity.x * Math.floor(Math.random() * (maxf - minf + 1)) + minf * delta;
