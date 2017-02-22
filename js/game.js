@@ -11,6 +11,8 @@ var soundArea, collisionArea, lightArea, lightOutside;
 
 var objects = [];
 
+var clock = new THREE.Clock();
+
 // Initialize Three.JS
 
 init();
@@ -273,7 +275,6 @@ function animateCamera( delta ) {
 	controls.getObject().translateZ( velocity.z * delta );
 }
 
-var clock = new THREE.Clock();
 var audioPos = new THREE.Vector3();
 var audioRot = new THREE.Euler();
 /*
