@@ -315,16 +315,18 @@ function animateCamera( delta ) {
 	acceleration.z = acceleration.z >= 0 ? Math.min(maxa, acceleration.z) : Math.max(maxa, acceleration.z);
 
 	// Add acc
+	/*
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
 	velocity.z += acceleration.z;
-	
+	*/
 	// Shift camera
 	controls.getObject().translateX( velocity.x * delta );
 	controls.getObject().translateY( velocity.y * delta );
 	controls.getObject().translateZ( velocity.z * delta );
 	
 	console.log(velocity);
+	console.log(acceleration);
 }
 
 var audioPos = new THREE.Vector3();
