@@ -292,9 +292,9 @@ function init() {
 
 function animateCamera( delta ) {
 
-	var scale = 1400, maxf = 5, minf = -2.5, maxa = 50;
+	var scale = 1400, maxf = 5, minf = 0, maxa = 50;
 	
-	// Friction from space particles 
+	// Friction/Drift from space particles 
 	velocity.x -= velocity.x * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
 	velocity.y -= velocity.y * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
 	velocity.z -= velocity.z * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
@@ -323,6 +323,8 @@ function animateCamera( delta ) {
 	controls.getObject().translateX( velocity.x * delta );
 	controls.getObject().translateY( velocity.y * delta );
 	controls.getObject().translateZ( velocity.z * delta );
+	
+	console.log(velocity);
 }
 
 var audioPos = new THREE.Vector3();
