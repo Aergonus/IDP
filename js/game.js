@@ -14,6 +14,8 @@ var objects = [], ambientLight;
 var clock = new THREE.Clock();
 var ticks = 0;
 
+var cowsfound = 0;
+
 // Initialize Three.JS
 
 init();
@@ -52,12 +54,21 @@ loader.onComplete = function( e ) {
 };
 */
 
+/*
+function checkmoo(event){
+	check distance
+	increment/update
+	start new round
+}
+*/
+
 // Acquire Pointer Lock
 
 function initPointerLock() {
 
 	blocker = document.getElementById( 'blocker' );
 	instructions = document.getElementById( 'instructions' );
+	info = document.getElementById( 'info' );
 
 	// http://www.html5rocks.com/en/tutorials/pointerlock/intro/
 
@@ -77,6 +88,9 @@ function initPointerLock() {
 				var delta = clock.getDelta(); // Added to prevent movement
 				
 				blocker.style.display = 'none';
+				
+				//document.addEventListener( checkmoo, mousedown, false);
+				console.log("HELLO");
 
 			} else {
 
@@ -89,6 +103,8 @@ function initPointerLock() {
 				blocker.style.display = 'box';
 
 				instructions.style.display = '';
+				console.log("GOODBYE");
+				//document.removeEventListener( checkmoo, mousedown, false);
 
 			}
 
