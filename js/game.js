@@ -310,9 +310,9 @@ function animateCamera( delta ) {
 	if ( moveDown ) acceleration.y -= scale * delta;
 	
 	// Limit acc
-	acceleration.x = acceleration.x > 0 ? Math.min(maxa, acceleration.x) : Math.max(maxa, acceleration.x);
-	acceleration.y = acceleration.y > 0 ? Math.min(maxa, acceleration.y) : Math.max(maxa, acceleration.y);
-	acceleration.z = acceleration.z > 0 ? Math.min(maxa, acceleration.z) : Math.max(maxa, acceleration.z);
+	acceleration.x = acceleration.x >= 0 ? Math.min(maxa, acceleration.x) : Math.max(maxa, acceleration.x);
+	acceleration.y = acceleration.y >= 0 ? Math.min(maxa, acceleration.y) : Math.max(maxa, acceleration.y);
+	acceleration.z = acceleration.z >= 0 ? Math.min(maxa, acceleration.z) : Math.max(maxa, acceleration.z);
 
 	// Add acc
 	velocity.x += acceleration.x;
