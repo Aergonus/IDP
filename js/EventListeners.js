@@ -90,6 +90,8 @@ function onDocumentKeyUp(event)
 		case 68: // d
 		case 39: // right
 			moveRight = false; break;
+		case 32: // space
+			moveUp = false; break;
 		case 16: // shift
 			moveDown = false; break;
 		default:
