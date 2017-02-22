@@ -266,8 +266,8 @@ function animateCamera( delta ) {
 	if ( moveLeft ) velocity.x -= scale * delta;
 	if ( moveRight ) velocity.x += scale * delta;
 
-	if ( moveUp ) velocity.y -= scale * delta;
-	if ( moveDown ) velocity.y += scale * delta;
+	if ( moveUp ) velocity.y += scale * delta;
+	if ( moveDown ) velocity.y -= scale * delta;
 	
 	// Shift camera
 	controls.getObject().translateX( velocity.x * delta );
