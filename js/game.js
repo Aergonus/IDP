@@ -282,7 +282,7 @@ camera.add( crosshair );
 				//sound.setVolume(0);
 
 				// play the audio
-				//sound.play();
+				sound.play();
 			},
 			// Function called when download progresses
 			function ( xhr ) {
