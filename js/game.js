@@ -256,7 +256,7 @@ function init() {
 		}
 	);
 	
-	var vector = new THREE.Vector3(0, 0, -1);
+	vector = new THREE.Vector3(0, 0, -1);
 	vector = camera.localToWorld(vector);
 	vector.sub(camera.position); // Now vector is a unit vector with the same direction as the camera
 
