@@ -58,9 +58,13 @@ loader.onComplete = function( e ) {
 function checkmoo(event){
 	console.log("Check Moo");
 	
+	raycaster = new THREE.Raycaster( new THREE.Vector3(), camera.getWorldDirection(), 0, 50 );
+	raycaster.ray.origin.copy( controls.getObject().position );
+	//raycaster.ray.origin.Z -= 10;
+	
 	var intersections = raycaster.intersectObjects( objects );
 	
-	if (intersections.length) {
+	if (intersections.length > 0 || controls.getObject().position.distanceTo(objects[0].position) < 20) {
 		cowsfound++;
 		
 		// Ask the browser to release the pointer
@@ -78,9 +82,8 @@ function checkmoo(event){
 			Math.floor(Math.random() * (2*edge)) - edge)
 	
 	}
-	//check distance
-	//increment/update
-	//start new round
+	
+	console.log(controls.getObject().position.distanceTo(objects[0].position));
 }
 
 // Acquire Pointer Lock
@@ -110,7 +113,7 @@ function initPointerLock() {
 				
 				blocker.style.display = 'none';
 				
-				document.addEventListener( 'onmousedown', checkmoo, false);
+				document.addEventListener( 'mousedown', checkmoo, false);
 				console.log("Acquired");
 
 			} else {
@@ -125,7 +128,7 @@ function initPointerLock() {
 
 				instructions.style.display = '';
 				console.log("Paused");
-				document.removeEventListener( 'onmousedown', checkmoo, false);
+				document.removeEventListener( 'mousedown', checkmoo, false);
 
 			}
 
@@ -217,6 +220,36 @@ function init() {
 	//Camera:
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
 	// Args(FOV, Aspect Ratio, Near clipping plane, Far clipping plane)
+
+	//DEBUG 
+var material = new THREE.LineBasicMaterial({ color: 0xAAFFAA });
+
+// crosshair size
+var x = 0.01, y = 0.01;
+
+var geometry = new THREE.Geometry();
+
+// crosshair
+geometry.vertices.push(new THREE.Vector3(0, y, 0));
+geometry.vertices.push(new THREE.Vector3(0, -y, 0));
+geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+geometry.vertices.push(new THREE.Vector3(x, 0, 0));    
+geometry.vertices.push(new THREE.Vector3(-x, 0, 0));
+
+var crosshair = new THREE.Line( geometry, material );
+
+// place it in the center
+var crosshairPercentX = 50;
+var crosshairPercentY = 50;
+var crosshairPositionX = (crosshairPercentX / 100) * 2 - 1;
+var crosshairPositionY = (crosshairPercentY / 100) * 2 - 1;
+
+crosshair.position.x = crosshairPositionX * camera.aspect;
+crosshair.position.y = crosshairPositionY;
+
+crosshair.position.z = -0.3;
+
+camera.add( crosshair );
 	
 	controls = new THREE.PointerLockControls( camera );
 	scene.add( controls.getObject() );
