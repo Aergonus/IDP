@@ -330,7 +330,7 @@ camera.add( crosshair );
 
 					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 					material.transparent = true;
-					material.opacity = 0.51;
+					material.opacity = 0.25;
 
 					objects.push( mesh );
 
