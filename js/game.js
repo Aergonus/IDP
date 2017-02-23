@@ -544,7 +544,8 @@ function animate() {
 	scene.fog.color.set( (value << 16) + (value << 8) + value );
 	//console.log(ambientLight.color);
 	
-	var dist = Math.floor(controls.getObject().position.distanceTo(objects[0].position)/100)
+	var dist = Math.floor(controls.getObject().position.distanceTo(objects[0].position)/100);
+	if (sounds.length == 12) {
 	for ( var i = 0; i <= 10; i++ ) {
 		sounds[i].stop();
 	}
@@ -553,7 +554,7 @@ function animate() {
 	} else {
 		sounds[10].play();
 	}
-	
+	}
 	renderer.render( scene, camera );
 
 	stats.update();
