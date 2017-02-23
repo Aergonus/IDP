@@ -260,35 +260,67 @@ camera.add( crosshair );
 	var listener = new THREE.AudioListener(); // instantiate a listener
 	camera.add( listener ); // add the listener to the camera
 	
-	var sound = new THREE.PositionalAudio( listener );
+	sounds = [];
 	
 	// instantiate a loader
 	var loader = new THREE.AudioLoader();
-
-	// load a resource
-	loader.load(
-		// resource URL
-		'./media/sounds/0.mp3',
-		// Function when resource is loaded
-		function ( audioBuffer ) {
-			// set the audio object buffer to the loaded object
-			sound.setBuffer( audioBuffer );
-			sound.setRefDistance( 100 );
-			sound.setLoop(true);
-
-			// play the audio
-			sound.play();
-		},
-		// Function called when download progresses
-		function ( xhr ) {
-			console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-		},
-		// Function called when download errors
-		function ( xhr ) {
-			console.log( 'An error happened' );
-		}
-	);
 	
+	for ( var i = 0; i <= 10; i++ ) {
+		var sound = new THREE.PositionalAudio( listener );
+
+		// load a resource
+		loader.load(
+			// resource URL
+			'./media/sounds/'+i+'.mp3',
+			// Function when resource is loaded
+			function ( audioBuffer ) {
+				// set the audio object buffer to the loaded object
+				sound.setBuffer( audioBuffer );
+				sound.setRefDistance( 100 );
+				sound.setLoop(true);
+
+				// play the audio
+				sound.play();
+			},
+			// Function called when download progresses
+			function ( xhr ) {
+				console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+			},
+			// Function called when download errors
+			function ( xhr ) {
+				console.log( 'An error happened' );
+			}
+		);
+		
+		sounds.push(sound);
+	}
+	
+		var sound = new THREE.PositionalAudio( listener );
+
+		// load a resource
+		loader.load(
+			// resource URL
+			'./media/sounds/win.mp3',
+			// Function when resource is loaded
+			function ( audioBuffer ) {
+				// set the audio object buffer to the loaded object
+				sound.setBuffer( audioBuffer );
+				sound.setRefDistance( 100 );
+
+				// play the audio
+				sound.play();
+			},
+			// Function called when download progresses
+			function ( xhr ) {
+				console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+			},
+			// Function called when download errors
+			function ( xhr ) {
+				console.log( 'An error happened' );
+			}
+		);
+		sounds.push(sound);
+		
 	vector = new THREE.Vector3(0, 0, -1);
 	vector = camera.localToWorld(vector);
 	vector.sub(camera.position); // Now vector is a unit vector with the same direction as the camera
@@ -322,7 +354,7 @@ camera.add( crosshair );
 
 					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 					material.transparent = true;
-					material.opacity = 0.01;
+					material.opacity = 0.51;
 
 					objects.push( mesh );
 
