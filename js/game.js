@@ -278,10 +278,10 @@ camera.add( crosshair );
 				sound.setBuffer( audioBuffer );
 				sound.setRefDistance( 100 );
 				sound.setLoop(true);
-				sound.setVolume(0);
+				//sound.setVolume(0);
 
 				// play the audio
-				sound.play();
+				//sound.play();
 			},
 			// Function called when download progresses
 			function ( xhr ) {
@@ -307,7 +307,7 @@ camera.add( crosshair );
 				// set the audio object buffer to the loaded object
 				sound.setBuffer( audioBuffer );
 				sound.setRefDistance( 100 );
-				sound.setVolume(0);
+				//sound.setVolume(0);
 
 				// play the audio
 				//sound.play();
@@ -546,12 +546,12 @@ function animate() {
 	
 	var dist = Math.floor(controls.getObject().position.distanceTo(objects[0].position)/100)
 	for ( var i = 0; i <= 10; i++ ) {
-		sounds[i].setVolume(0);
+		sounds[i].stop();
 	}
 	if (dist < 10) {
-		sounds[dist].setVolume(1);
+		sounds[dist].play();
 	} else {
-		sounds[10].setVolume(1);
+		sounds[10].play();
 	}
 	
 	renderer.render( scene, camera );
