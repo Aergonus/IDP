@@ -1,6 +1,6 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-var container, raycaster, stats;
+var container, raycaster = new THREE.Raycaster(), stats;
 
 var camera, scene, renderer, composer, controls, controlsEnabled, velocity, acceleration;
 var blocker, instructions;
@@ -201,8 +201,6 @@ var Sound = function ( radius, volume ) {
 
 function init() {
 	initPointerLock();
-	
-	raycaster = new THREE.Raycaster();
 
 	scene = new THREE.Scene();
 	scene.fog = new THREE.FogExp2( 0x000000, 0.0025 );
@@ -262,7 +260,7 @@ function init() {
 	vector = camera.localToWorld(vector);
 	vector.sub(camera.position); // Now vector is a unit vector with the same direction as the camera
 
-	var raycaster = new THREE.Raycaster( camera.position, vector, 0, 30);
+	raycaster = new THREE.Raycaster( camera.position, vector, 0, 30);
 	
 				// floor
 
