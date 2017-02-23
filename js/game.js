@@ -295,34 +295,6 @@ camera.add( crosshair );
 
 	raycaster = new THREE.Raycaster( camera.position, vector, 0, 30);
 	
-				// floor
-
-				geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
-				geometry.rotateX( - Math.PI / 2 );
-
-				for ( var i = 0, l = geometry.vertices.length; i < l; i ++ ) {
-
-					var vertex = geometry.vertices[ i ];
-					vertex.x += Math.random() * 20 - 10;
-					vertex.y += Math.random() * 2;
-					vertex.z += Math.random() * 20 - 10;
-
-				}
-
-				for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
-
-					var face = geometry.faces[ i ];
-					face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-					face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-					face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-
-				}
-
-				material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
-
-				mesh = new THREE.Mesh( geometry, material );
-				scene.add( mesh );
-
 				// objects
 
 				geometry = new THREE.BoxGeometry( 20, 20, 20 );
@@ -350,7 +322,7 @@ camera.add( crosshair );
 
 					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 					material.transparent = true;
-					material.opacity = 0.51;
+					material.opacity = 0.01;
 
 					objects.push( mesh );
 
@@ -530,11 +502,12 @@ function animate() {
 	*/
 	
 	// Change intensity of ambient light
-	var frequency = .01; // set by distance 
+	var frequency = 1/controls.getObject().position.distanceTo(objects[0].position); // set by distance 
 	var amplitude = 127;
 	var center = 128;
 	var value = Math.sin(frequency*ticks) * amplitude + center;
 	ambientLight.color.set( (value << 16) + (value << 8) + value );
+	scene.fog.color.set( (value << 16) + (value << 8) + value );
 	//console.log(ambientLight.color);
 	
 	renderer.render( scene, camera );
