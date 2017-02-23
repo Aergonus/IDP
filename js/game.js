@@ -277,7 +277,7 @@ camera.add( crosshair );
 			function ( audioBuffer ) {
 				// set the audio object buffer to the loaded object
 				sound.setBuffer( audioBuffer );
-				sound.setRefDistance( 1 );
+				sound.setRefDistance( 10 );
 				sound.setRolloffFactor( 1 );
 				sound.setDistanceModel('exponential');
 				sound.setLoop(true);
