@@ -15,6 +15,8 @@ var edge = 1000;
 var clock = new THREE.Clock();
 var ticks = 0;
 
+var loaded = 0;
+
 var cowsfound = 0;
 
 // Initialize Three.JS
@@ -265,13 +267,12 @@ camera.add( crosshair );
 	// instantiate a loader
 	var loader = new THREE.AudioLoader();
 	
-	for ( var i = 0; i <= 10; i++ ) {
 		var sound = new THREE.PositionalAudio( listener );
 
 		// load a resource
 		loader.load(
 			// resource URL
-			'./media/sounds/'+i+'.mp3',
+			'./media/sounds/0.mp3',
 			// Function when resource is loaded
 			function ( audioBuffer ) {
 				// set the audio object buffer to the loaded object
@@ -292,36 +293,7 @@ camera.add( crosshair );
 				console.log( 'An error happened' );
 			}
 		);
-		
-		sounds.push(sound);
-	}
-	
-		var sound = new THREE.PositionalAudio( listener );
 
-		// load a resource
-		loader.load(
-			// resource URL
-			'./media/sounds/win.mp3',
-			// Function when resource is loaded
-			function ( audioBuffer ) {
-				// set the audio object buffer to the loaded object
-				sound.setBuffer( audioBuffer );
-				sound.setRefDistance( 1000 );
-				//sound.setVolume(0);
-
-				// play the audio
-				//sound.play();
-			},
-			// Function called when download progresses
-			function ( xhr ) {
-				console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-			},
-			// Function called when download errors
-			function ( xhr ) {
-				console.log( 'An error happened' );
-			}
-		);
-		sounds.push(sound);
 		
 	vector = new THREE.Vector3(0, 0, -1);
 	vector = camera.localToWorld(vector);
@@ -545,16 +517,7 @@ function animate() {
 	//console.log(ambientLight.color);
 	
 	var dist = Math.floor(controls.getObject().position.distanceTo(objects[0].position)/100);
-	if (sounds.length == 12) {
-	for ( var i = 0; i <= 10; i++ ) {
-		sounds[i].stop();
-	}
-	if (dist < 10) {
-		sounds[dist].play();
-	} else {
-		sounds[10].play();
-	}
-	}
+
 	renderer.render( scene, camera );
 
 	stats.update();
