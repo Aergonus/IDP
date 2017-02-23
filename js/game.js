@@ -22,7 +22,7 @@ var cowsfound = 0;
 // Initialize Three.JS
 
 init();
-window.onload(animate());
+animate();
 
 /*
 loader.onComplete = function( e ) {
