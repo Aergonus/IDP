@@ -11,6 +11,7 @@ var soundArea, collisionArea, lightArea, lightOutside;
 
 var objects = [], ambientLight;
 
+var edge = 1000;
 var clock = new THREE.Clock();
 var ticks = 0;
 
@@ -54,13 +55,33 @@ loader.onComplete = function( e ) {
 };
 */
 
-/*
 function checkmoo(event){
-	check distance
-	increment/update
-	start new round
+	console.log("Check Moo");
+	
+	var intersections = raycaster.intersectObjects( objects );
+	
+	if (intersections.length) {
+		cowsfound++;
+		
+		// Ask the browser to release the pointer
+		document.exitPointerLock = document.exitPointerLock ||
+			   document.mozExitPointerLock ||
+			   document.webkitExitPointerLock;
+		document.exitPointerLock();
+		
+		info = document.getElementById( 'info' );
+		info.innerHTML = cowsfound <= 1 ? cowsfound + " moo" : cowsfound + " moos";
+		
+		controls.getObject().position.set(
+			Math.floor(Math.random() * (2*edge)) - edge,
+			Math.floor(Math.random() * (2*edge)) - edge,
+			Math.floor(Math.random() * (2*edge)) - edge)
+	
+	}
+	//check distance
+	//increment/update
+	//start new round
 }
-*/
 
 // Acquire Pointer Lock
 
@@ -89,8 +110,8 @@ function initPointerLock() {
 				
 				blocker.style.display = 'none';
 				
-				//document.addEventListener( checkmoo, mousedown, false);
-				console.log("HELLO");
+				document.addEventListener( checkmoo, mousedown, false);
+				console.log("Acquired");
 
 			} else {
 
@@ -103,8 +124,8 @@ function initPointerLock() {
 				blocker.style.display = 'box';
 
 				instructions.style.display = '';
-				console.log("GOODBYE");
-				//document.removeEventListener( checkmoo, mousedown, false);
+				console.log("Paused");
+				document.removeEventListener( checkmoo, mousedown, false);
 
 			}
 
@@ -237,9 +258,12 @@ function init() {
 		}
 	);
 	
+	var vector = new THREE.Vector3(0, 0, -1);
+	vector = camera.localToWorld(vector);
+	vector.sub(camera.position); // Now vector is a unit vector with the same direction as the camera
 
-				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
-
+	var raycaster = new THREE.Raycaster( camera.position, vector, 0, 30);
+	
 				// floor
 
 				geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
@@ -348,7 +372,7 @@ function init() {
 
 function animateCamera( delta ) {
 
-	var scale = 10, maxf = 10, minf = 3, maxa = 50, edge = 1000;
+	var scale = 10, maxf = 10, minf = 3, maxa = 50;
 	
 	// Friction/Drift from space particles 
 	velocity.x -= velocity.x * (Math.floor(Math.random() * (maxf - minf + 1)) + minf) * delta;
