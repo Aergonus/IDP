@@ -267,7 +267,7 @@ camera.add( crosshair );
 	// instantiate a loader
 	var loader = new THREE.AudioLoader();
 	
-		var sound = new THREE.PositionalAudio( listener );
+		sound = new THREE.PositionalAudio( listener );
 
 		// load a resource
 		loader.load(
@@ -277,7 +277,9 @@ camera.add( crosshair );
 			function ( audioBuffer ) {
 				// set the audio object buffer to the loaded object
 				sound.setBuffer( audioBuffer );
-				sound.setRefDistance( 1000 );
+				sound.setRefDistance( 1 );
+				sound.setRolloffFactor( 1 );
+				sound.setDistanceModel('exponential');
 				sound.setLoop(true);
 				//sound.setVolume(0);
 
