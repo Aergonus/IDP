@@ -276,7 +276,7 @@ camera.add( crosshair );
 			function ( audioBuffer ) {
 				// set the audio object buffer to the loaded object
 				sound.setBuffer( audioBuffer );
-				sound.setRefDistance( 100 );
+				sound.setRefDistance( 1000 );
 				sound.setLoop(true);
 				//sound.setVolume(0);
 
@@ -306,7 +306,7 @@ camera.add( crosshair );
 			function ( audioBuffer ) {
 				// set the audio object buffer to the loaded object
 				sound.setBuffer( audioBuffer );
-				sound.setRefDistance( 100 );
+				sound.setRefDistance( 1000 );
 				//sound.setVolume(0);
 
 				// play the audio
