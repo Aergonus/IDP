@@ -110,7 +110,7 @@ function initPointerLock() {
 				
 				blocker.style.display = 'none';
 				
-				document.addEventListener( mousedown, checkmoo, false);
+				document.addEventListener( 'mousedown', checkmoo, false);
 				console.log("Acquired");
 
 			} else {
@@ -125,7 +125,7 @@ function initPointerLock() {
 
 				instructions.style.display = '';
 				console.log("Paused");
-				document.removeEventListener( mousedown, checkmoo, false);
+				document.removeEventListener( 'mousedown', checkmoo, false);
 
 			}
 
