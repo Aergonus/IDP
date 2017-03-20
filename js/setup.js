@@ -27,7 +27,7 @@ function setup() {
 
 	var lockchange = function ( event ) {
 
-		if ( pause ) {
+	if ( pause ) {
 
 			controls.enabled = false;
 			
@@ -58,18 +58,16 @@ function setup() {
 
 	// Instantiate Threejs loader which sets up and inits AudioContext
 	var loader = new THREE.AudioLoader();
-	var context = AudioContext.getContext();
-	var source = context.createBufferSource();
 	
 	// Load win sound
 	loader.load(
 		// Resource URL
 		'./media/sounds/win.mp3',
 		// Function when resource is loaded
-		function ( source ) {
+		function ( audioBuffer ) {
 			// Success Handler from Ajax call
-			winmoo = source; // Save audioBuffer response
-			
+			winmoo = audioBuffer; // Save audioBuffer response
+			console.log(audioBuffer);
 			// See if we're done with the last ajax call
 			--ajaxCallsRemaining;
 			info.innerHTML = "Loaded Win M00 ;)";
@@ -99,11 +97,11 @@ function setup() {
 	
 	for (var i = 0; i <= 10; i++) {
 		// Load moo resources
-		source = context.createBufferSource();
 		loader.load(
 			'./media/sounds/'+i+'.mp3',
-			function ( source ) {
-				returnedMoos[i] = source;
+			function ( audioBuffer ) {
+			console.log(audioBuffer);
+				returnedMoos[i] = audioBuffer;
 				--ajaxCallsRemaining;
 				info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
 				if (ajaxCallsRemaining <= 0) {
