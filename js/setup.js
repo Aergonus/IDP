@@ -72,7 +72,7 @@ function setup() {
 			// See if we're done with the last ajax call
 			--ajaxCallsRemaining;
 			info.innerHTML = "Loaded Win M00 ;)";
-			if (ajaxCallsRemaining <= 0) {
+			if (ajaxCallsRemaining < 0) {
 				// All resources loaded! Unlock Game
 				// Hook pointer lock state change events
 				document.addEventListener("pause", lockchange, false );
@@ -86,6 +86,8 @@ function setup() {
 					document.dispatchEvent(pauseEvent);
 
 				}, false );
+				
+				console.log("All loaded");
 			}
 		},
 		// Function called when download progresses
@@ -101,7 +103,6 @@ function setup() {
 			function ( audioBuffer ) {
 				returnedMoos[i] = audioBuffer;
 				--ajaxCallsRemaining;
-				info.innerHTML = "Loading Progress " (11 - ajaxCallsRemaining)/11 + " %";
 				if (ajaxCallsRemaining <= 0) {
 					document.addEventListener("pause", lockchange, false );
 					instructions.addEventListener( 'click', function ( event ) {
@@ -109,6 +110,7 @@ function setup() {
 						pause = false;
 						document.dispatchEvent(pauseEvent);
 					}, false );
+					console.log("All loaded");
 				}
 			},
 			onProgress,
