@@ -13,8 +13,8 @@ var onError = function ( xhr ) {
 	console.log( 'An error happened' );
 };
 
-//var moourls = ["http://findtheinvisiblecow.com/static/sound/cow/win.mp3"];
 var totalCalls = ajaxCallsRemaining = 12;
+var moourls = [];
 var returnedMoos = [];
 var winmoo;
 
@@ -59,70 +59,48 @@ function setup() {
 	// Instantiate Threejs loader which sets up and inits AudioContext
 	var loader = new THREE.AudioLoader();
 	
-	// Load win sound
-	loader.load(
-		// Resource URL
-		'./media/sounds/win.mp3',
-		// Function when resource is loaded
-		function ( audioBuffer ) {
-			// Success Handler from Ajax call
-			winmoo = audioBuffer; // Save audioBuffer response
-			// See if we're done with the last ajax call
-			--ajaxCallsRemaining;
-			info.innerHTML = "Loaded Win M00 ;)";
-			if (ajaxCallsRemaining < 0) {
-				// All resources loaded! Unlock Game
-				// Hook pointer lock state change events
-				document.addEventListener("pause", lockchange, false );
-
-				instructions.addEventListener( 'click', function ( event ) {
-
-					instructions.style.display = 'none'; 
-
-					// Unlock Pause
-					pause = false;
-					document.dispatchEvent(pauseEvent);
-
-				}, false );
-				
-				info.innerHTML = "All loaded";
-			}
-		},
-		// Function called when download progresses
-		onProgress,
-		// Function called when download errors
-		onError
-	);
-	
-	function storeBuffer(index, buffer) {
-		returnedMoos[index] = buffer;
-		--ajaxCallsRemaining;
-		info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
-		if (ajaxCallsRemaining <= 0) {
-			document.addEventListener("pause", lockchange, false );
-			instructions.addEventListener( 'click', function ( event ) {
-				instructions.style.display = 'none'; 
-				pause = false;
-				document.dispatchEvent(pauseEvent);
-			}, false );
-			info.innerHTML = "All loaded";
-		}
-	}
-		
-	
+	// Array of Sounds to Load
 	for (var i = 0; i <= 10; i++) {
-		let tempi = i + 0;
-		// Load moo resources
+		moourls.push('./media/sounds/'+i+'.mp3');
+	}
+	moourls.push('./media/sounds/win.mp3');
+	
+	moourls.forEach(function(listItem, index){
+		// Load sound
 		loader.load(
-			'./media/sounds/'+i+'.mp3',
+			// Resource URL
+			listItem,
+			// Function when resource is loaded
 			function ( audioBuffer ) {
-				storeBuffer(i, audioBuffer);
+				// Success Handler from Ajax call
+				returnedMoos[index] = buffer; // Save audioBuffer response
+				// See if we're done with the last ajax call
+				--ajaxCallsRemaining;
+				info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
+				if (ajaxCallsRemaining < 0) {
+					// All resources loaded! Unlock Game
+					// Hook pointer lock state change events
+					document.addEventListener("pause", lockchange, false );
+
+					instructions.addEventListener( 'click', function ( event ) {
+
+						instructions.style.display = 'none'; 
+
+						// Unlock Pause
+						pause = false;
+						document.dispatchEvent(pauseEvent);
+
+					}, false );
+					
+					info.innerHTML = "All loaded";
+				}
 			},
+			// Function called when download progresses
 			onProgress,
+			// Function called when download errors
 			onError
 		);
-	}
-
+	});
 }
 
 setup();
