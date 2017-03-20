@@ -73,7 +73,7 @@ function setup() {
 			// Function when resource is loaded
 			function ( audioBuffer ) {
 				// Success Handler from Ajax call
-				returnedMoos[index] = buffer; // Save audioBuffer response
+				returnedMoos[index] = audioBuffer; // Save audioBuffer response
 				// See if we're done with the last ajax call
 				--ajaxCallsRemaining;
 				info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
