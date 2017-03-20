@@ -63,7 +63,7 @@ function setup() {
 	// Load win sound
 	loader.load(
 		// Resource URL
-		'../media/cow/win.mp3',
+		'./media/sounds/win.mp3',
 		// Function when resource is loaded
 		function ( audioBuffer ) {
 			// Success Handler from Ajax call
@@ -97,7 +97,7 @@ function setup() {
 	for (var i = 0; i <= 10; i++) {
 		// Load moo resources
 		loader.load(
-			'../media/cow/'+i+'.mp3',
+			'./media/sounds/'+i+'.mp3',
 			function ( audioBuffer ) {
 				returnedMoos[i] = audioBuffer;
 				--ajaxCallsRemaining;
