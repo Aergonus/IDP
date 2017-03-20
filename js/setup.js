@@ -67,7 +67,6 @@ function setup() {
 		function ( audioBuffer ) {
 			// Success Handler from Ajax call
 			winmoo = audioBuffer; // Save audioBuffer response
-			console.log(audioBuffer);
 			// See if we're done with the last ajax call
 			--ajaxCallsRemaining;
 			info.innerHTML = "Loaded Win M00 ;)";
