@@ -99,9 +99,8 @@ function setup() {
 		loader.load(
 			'./media/sounds/'+i+'.mp3',
 			function ( audioBuffer ) {
-				function(){
-					returnedMoos[i] = audioBuffer;
-				}
+				let tempi = i + 0;
+				returnedMoos[tempi] = audioBuffer;
 				--ajaxCallsRemaining;
 				info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
 				if (ajaxCallsRemaining <= 0) {
