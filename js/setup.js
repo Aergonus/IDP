@@ -95,12 +95,13 @@ function setup() {
 	);
 	
 	for (var i = 0; i <= 10; i++) {
-		let tempi = i - 1;
 		// Load moo resources
 		loader.load(
 			'./media/sounds/'+i+'.mp3',
 			function ( audioBuffer ) {
-				returnedMoos[tempi] = audioBuffer;
+				function(){
+					returnedMoos[i] = audioBuffer;
+				}
 				--ajaxCallsRemaining;
 				info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
 				if (ajaxCallsRemaining <= 0) {
