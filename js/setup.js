@@ -103,6 +103,7 @@ function setup() {
 			function ( audioBuffer ) {
 				returnedMoos[i] = audioBuffer;
 				--ajaxCallsRemaining;
+				info.innerHTML = "Loading Progress " + (12 - ajaxCallsRemaining)/12 + " %";
 				if (ajaxCallsRemaining <= 0) {
 					document.addEventListener("pause", lockchange, false );
 					instructions.addEventListener( 'click', function ( event ) {
