@@ -94,24 +94,29 @@ function setup() {
 		onError
 	);
 	
+	function storeBuffer(index, buffer) {
+		returnedMoos[index] = buffer;
+		--ajaxCallsRemaining;
+		info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
+		if (ajaxCallsRemaining <= 0) {
+			document.addEventListener("pause", lockchange, false );
+			instructions.addEventListener( 'click', function ( event ) {
+				instructions.style.display = 'none'; 
+				pause = false;
+				document.dispatchEvent(pauseEvent);
+			}, false );
+			info.innerHTML = "All loaded";
+		}
+	}
+		
+	
 	for (var i = 0; i <= 10; i++) {
 		let tempi = i + 0;
 		// Load moo resources
 		loader.load(
 			'./media/sounds/'+i+'.mp3',
 			function ( audioBuffer ) {
-				returnedMoos[tempi] = audioBuffer;
-				--ajaxCallsRemaining;
-				info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
-				if (ajaxCallsRemaining <= 0) {
-					document.addEventListener("pause", lockchange, false );
-					instructions.addEventListener( 'click', function ( event ) {
-						instructions.style.display = 'none'; 
-						pause = false;
-						document.dispatchEvent(pauseEvent);
-					}, false );
-					info.innerHTML = "All loaded";
-				}
+				storeBuffer(i, audioBuffer);
 			},
 			onProgress,
 			onError
