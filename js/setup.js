@@ -14,7 +14,7 @@ var onError = function ( xhr ) {
 };
 
 //var moourls = ["http://findtheinvisiblecow.com/static/sound/cow/win.mp3"];
-var ajaxCallsRemaining = 11;
+var totalCalls = ajaxCallsRemaining = 12;
 var returnedMoos = [];
 var winmoo;
 
@@ -103,7 +103,7 @@ function setup() {
 			function ( audioBuffer ) {
 				returnedMoos[i] = audioBuffer;
 				--ajaxCallsRemaining;
-				info.innerHTML = "Loading Progress " + (12 - ajaxCallsRemaining)/12 + " %";
+				info.innerHTML = "Loading Progress " + (totalCalls - ajaxCallsRemaining)/totalCalls + " %";
 				if (ajaxCallsRemaining <= 0) {
 					document.addEventListener("pause", lockchange, false );
 					instructions.addEventListener( 'click', function ( event ) {
