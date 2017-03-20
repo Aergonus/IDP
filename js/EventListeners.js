@@ -30,6 +30,7 @@ var keyMappings =
 {
 	'9'  : 'tab',
 	'16' : 'shift',
+	'27' : 'esc',
 	'32' : 'space',
 	'38' : 'up',
 	'87' : 'W',
@@ -39,17 +40,23 @@ var keyMappings =
 	'83' : 'S',
 	'39' : 'right',
 	'68' : 'D',
-	'80' : 'P',
+	'80' : 'P'
 };
 
+// Create pause event trigger
+var pauseEvent = new CustomEvent("pause", { "detail": "User paused." });
 var pause = true;
 
 function onDocumentKeyDown(event)
 {
 	switch ( event.keyCode ) {
 		case 9 : // tab
+		case 27: // esc
 		case 80: // p
-			pause = !pause; break;//changeControl(); break;
+			pause = !pause; 
+			// Dispatch/Trigger/Fire the event
+			document.dispatchEvent(pauseEvent);
+			break;
 		case 87: // w
 		case 38: // up
 			moveForward = true; break;
