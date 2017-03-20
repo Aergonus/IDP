@@ -26,8 +26,7 @@ function setup() {
 	info = document.getElementById( 'info' );
 
 	var lockchange = function ( event ) {
-		console.log(e.detail); // Prints "User paused."
-		
+
 		if ( pause ) {
 
 			controls.enabled = false;
@@ -87,7 +86,7 @@ function setup() {
 
 				}, false );
 				
-				console.log("All loaded");
+				info.innerHTML = "All loaded";
 			}
 		},
 		// Function called when download progresses
@@ -103,7 +102,7 @@ function setup() {
 			function ( audioBuffer ) {
 				returnedMoos[i] = audioBuffer;
 				--ajaxCallsRemaining;
-				info.innerHTML = "Loading Progress " + (totalCalls - ajaxCallsRemaining)/totalCalls + " %";
+				info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
 				if (ajaxCallsRemaining <= 0) {
 					document.addEventListener("pause", lockchange, false );
 					instructions.addEventListener( 'click', function ( event ) {
@@ -111,7 +110,7 @@ function setup() {
 						pause = false;
 						document.dispatchEvent(pauseEvent);
 					}, false );
-					console.log("All loaded");
+					info.innerHTML = "All loaded";
 				}
 			},
 			onProgress,
