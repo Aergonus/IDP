@@ -33,9 +33,7 @@ function setup() {
 	instructions = document.getElementById( 'instructions' );
 
 	var lockchange = function ( event ) {
-
-	if ( pause ) {
-
+		if ( pause ) {
 			controls.enabled = false;
 			
 			var delta = clock.getDelta(); // Added to prevent movement
@@ -84,11 +82,11 @@ function setup() {
 				// See if we're done with the last ajax call
 				--ajaxCallsRemaining;
 				info.innerHTML = "Loading Progress " + ((totalCalls - ajaxCallsRemaining)/totalCalls*100) + " %";
-				if (ajaxCallsRemaining < 0) {
+				if (ajaxCallsRemaining <= 0) {
 					// All resources loaded! Unlock Game
 					// Hook pointer lock state change events
 					document.addEventListener("pause", lockchange, false );
-
+					
 					instructions.addEventListener( 'click', function ( event ) {
 						instructions.style.display = 'none'; 
 						
