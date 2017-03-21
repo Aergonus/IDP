@@ -84,7 +84,7 @@ function unlock() {
 			blocker.style.display = 'box';
 
 			instructions.style.display = '';
-			console.log("Paused");
+			info.innerHTML = "Paused";
 			//document.removeEventListener( 'mousedown', checkmoo, false);
 		} else {
 
@@ -96,7 +96,7 @@ function unlock() {
 			blocker.style.display = 'none';
 			
 			//document.addEventListener( 'mousedown', checkmoo, false);
-			console.log("Acquired");
+			info.innerHTML = "moo.";
 
 		}
 
