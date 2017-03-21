@@ -115,6 +115,17 @@ function setup() {
 	sound.setDistanceModel('exponential');
 	sound.setLoop(true);
 	sound.play();
+	
+	animate();
 }
 
 setup();
+
+function animate() {
+	if ( controlsEnabled ) { animateCamera( delta ); }
+
+	renderer.render( scene, camera );
+
+	requestAnimationFrame( animate );
+	
+}
