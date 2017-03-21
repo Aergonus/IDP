@@ -9,6 +9,8 @@ let controls = new THREE.OrbitControls(camera);
 let info = document.getElementById( 'info' );
 let listener = new THREE.AudioListener(); // instantiate a listener
 
+var sound; 
+
 // XHR Loading functions
 // Function called when download progresses
 var onProgress = function ( xhr ) { 
@@ -106,7 +108,7 @@ function setup() {
 		);
 	});
 	
-	var sound = new THREE.PositionalAudio( listener );
+	sound = new THREE.PositionalAudio( listener );
 	sound.setBuffer( returnedMoos[0] );
 	sound.setRefDistance( 10 );
 	sound.setRolloffFactor( 1 );
