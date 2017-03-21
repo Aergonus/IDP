@@ -221,31 +221,17 @@ var audioPos = new THREE.Vector3();
 var audioRot = new THREE.Euler();
 
 function animate() {
-	//if ( controlsEnabled ) { animateCamera( delta ); }
-	
 	// 3D Sound Spatial Transform Update
 	listener.position.copy( audioPos.setFromMatrixPosition( camera.matrixWorld ) );
 	listener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
 	
 	camera.lookAt(earth.position);
 	
-	// Change intensity of ambient light
-	var frequency = 1/controls.getObject().position.distanceTo(earth.position); // set by distance 
-	var amplitude = 127;
-	var center = 128;
-	var value = Math.sin(frequency*ticks) * amplitude + center;
-	ambientLight.color.set( (value << 16) + (value << 8) + value );
-	scene.fog.color.set( (value << 16) + (value << 8) + value );
-	//console.log(ambientLight.color);
-	
-	//var dist = Math.floor(controls.getObject().position.distanceTo(objects[0].position)/100);
-
 	renderer.render( scene, camera );
 
 	stats.update();
 
 	requestAnimationFrame( animate );
-	
 }
 
 // dat.gui
