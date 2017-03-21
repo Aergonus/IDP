@@ -7,6 +7,7 @@ let aspect = window.innerWidth / window.innerHeight;
 let camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1500);
 let orbitControls = new THREE.OrbitControls(camera);
 let info = document.getElementById( 'info' );
+let listener = new THREE.AudioListener(); // instantiate a listener
 
 // XHR Loading functions
 // Function called when download progresses
@@ -104,6 +105,14 @@ function setup() {
 			onError
 		);
 	});
+	
+	var sound = new THREE.PositionalAudio( listener );
+	sound.setBuffer( returnedMoos[0] );
+	sound.setRefDistance( 10 );
+	sound.setRolloffFactor( 1 );
+	sound.setDistanceModel('exponential');
+	sound.setLoop(true);
+	sound.play();
 }
 
 setup();
