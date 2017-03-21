@@ -39,7 +39,7 @@ function setup() {
 		if ( pause ) {
 			controls.enabled = false;
 			
-			var delta = clock.getDelta(); // Added to prevent movement
+			//var delta = clock.getDelta(); // Added to prevent movement
 
 			blocker.style.display = '-webkit-box';
 			blocker.style.display = '-moz-box';
@@ -53,7 +53,7 @@ function setup() {
 			controlsEnabled = true;
 			controls.enabled = true;
 			
-			var delta = clock.getDelta(); // Added to prevent movement
+			//var delta = clock.getDelta(); // Added to prevent movement
 			
 			blocker.style.display = 'none';
 			
