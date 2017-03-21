@@ -1,16 +1,19 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 // Scene, Camera, Renderer
-let renderer = new THREE.WebGLRenderer();
-let scene = new THREE.Scene();
-let aspect = window.innerWidth / window.innerHeight;
-let camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1500);
-let controls = new THREE.OrbitControls(camera);
-let info = document.getElementById( 'info' );
-let listener = new THREE.AudioListener(); // instantiate a listener
+let renderer	= new THREE.WebGLRenderer();
+let scene		= new THREE.Scene();
+let aspect		= window.innerWidth / window.innerHeight;
+let camera		= new THREE.PerspectiveCamera(45, aspect, 0.1, 1500);
+let controls	= new THREE.OrbitControls(camera);
+let info		= document.getElementById( 'info' );
+let listener	= new THREE.AudioListener(); // instantiate a listener
 let controlsEnabled = false;
 
-var sound; 
+var velocity = new THREE.Vector3();
+var acceleration = new THREE.Vector3();
+
+var sound; // temp to replace TODO:
 
 // XHR Loading functions
 // Function called when download progresses
@@ -30,10 +33,10 @@ var moourls = [];
 var returnedMoos = [];
 var winmoo;
 
-setup();
+init();
 
 // Setup Libraries, Acquire Locks, and Load Assets
-function setup() {
+function init() {
 	// Instantiate Threejs loader which sets up and inits AudioContext
 	var loader = new THREE.AudioLoader();
 	
@@ -66,6 +69,89 @@ function setup() {
 			onError
 		);
 	});
+	
+	// Start Loading Non-Audio Assets
+
+	// Lights
+	let spotLight = new THREE.SpotLight(0xffffff, .25, 0, 10, 2);
+	let ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
+	
+	// Texture Loader
+	let textureLoader = new THREE.TextureLoader();
+	
+	// Earth
+	let earth = createPlanet({
+	  surface: {
+		size: 0.5,
+		material: {
+		  bumpScale: 0.05,
+		  specular: new THREE.Color('grey'),
+		  shininess: 10
+		},
+		textures: {
+		  map: '',//'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthmap1k.jpg',
+		  bumpMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthbump1k.jpg',
+		  specularMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthspec1k.jpg'
+		}
+	  },
+	  atmosphere: {
+		size: 0.003,
+		material: {
+		  opacity: 0.8
+		},
+		textures: {
+		  map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
+		  alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg'
+		},
+		glow: {
+		  size: 0.02,
+		  intensity: 0.7,
+		  fade: 7,
+		  color: 0x93cfef
+		}
+	  },
+	});
+
+
+	// Galaxy
+	let galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
+	let galaxyMaterial = new THREE.MeshBasicMaterial({
+	  side: THREE.BackSide
+	});
+	let galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
+
+	// Load Galaxy Textures
+	textureLoader.crossOrigin = true;
+	textureLoader.load(
+	  'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
+	  function(texture) {
+		galaxyMaterial.map = texture;
+		scene.add(galaxy);
+	  }
+	);
+	
+
+	// Scene, Camera, Renderer Configuration
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+
+	camera.position.set(1,1,1);
+
+	scene.add(camera);
+	scene.add(spotLight);
+	scene.add(ambientLight);
+	scene.add(earth);
+	//scene.fog = new THREE.FogExp2( 0x000000, 0.0025 );
+
+	// Light Configurations
+	spotLight.position.set(1,1,1);
+	spotLight.lookAt(earth.position);
+
+	// Mesh Configurations
+	earth.receiveShadow = true;
+	earth.castShadow = true;
+	earth.getObjectByName('surface').geometry.center();
+
 }
 
 // Runs once after page is loaded
@@ -97,7 +183,6 @@ function unlock() {
 			
 			//document.addEventListener( 'mousedown', checkmoo, false);
 			info.innerHTML = "moo.";
-
 		}
 
 	};
@@ -130,11 +215,52 @@ sound.play();
 	animate();
 }
 
+var audioPos = new THREE.Vector3();
+var audioRot = new THREE.Euler();
+
 function animate() {
 	//if ( controlsEnabled ) { animateCamera( delta ); }
+	
+	// 3D Sound Spatial Transform Update
+	audioListener.position.copy( audioPos.setFromMatrixPosition( camera.matrixWorld ) );
+	audioListener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
+	
+	camera.lookAt(earth.position);
+	
+	// Change intensity of ambient light
+	var frequency = 1/controls.getObject().position.distanceTo(earth.position); // set by distance 
+	var amplitude = 127;
+	var center = 128;
+	var value = Math.sin(frequency*ticks) * amplitude + center;
+	ambientLight.color.set( (value << 16) + (value << 8) + value );
+	scene.fog.color.set( (value << 16) + (value << 8) + value );
+	//console.log(ambientLight.color);
+	
+	//var dist = Math.floor(controls.getObject().position.distanceTo(objects[0].position)/100);
 
 	renderer.render( scene, camera );
+
+	stats.update();
 
 	requestAnimationFrame( animate );
 	
 }
+
+// dat.gui
+var gui = new dat.GUI();
+var guiMarkers = gui.addFolder('Markers');
+// dat.gui controls object
+var markersControls = new function() {
+  this.address = '';
+  this.color = 0xff0000;
+  this.placeMarker= function() {
+    placeMarkerAtAddress(this.address, this.color);
+  }
+}
+guiMarkers.add(markersControls, 'address');
+guiMarkers.addColor(markersControls, 'color');
+guiMarkers.add(markersControls, 'placeMarker');
+
+// stats
+stats = new Stats();
+document.body.appendChild( stats.dom );
