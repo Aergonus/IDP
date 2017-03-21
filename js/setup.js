@@ -86,7 +86,7 @@ function init() {
 	  surface: {
 		size: 0.5,
 		material: {
-		  bumpScale: 0.25s,
+		  bumpScale: 0.25,
 		  specular: new THREE.Color('grey'),
 		  shininess: 10
 		},
