@@ -1,10 +1,14 @@
 // Credits to threex.planets http://learningthreejs.com/blog/2013/09/16/how-to-make-the-earth-in-webgl/
 
+// Texture Loader
+let textureLoader = new THREE.TextureLoader();
+
 // Planet Proto
 let planetProto = {
   sphere: function(size) {
     let sphere = new THREE.SphereGeometry(size, 32, 32);
-    
+    sphere.computeFaceNormals();
+	
     return sphere;
   },
   material: function(options) {
