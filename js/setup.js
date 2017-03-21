@@ -133,10 +133,9 @@ function init() {
 	  }
 	);
 	
-	var geometry = new THREE.CylinderGeometry( 5, 5, 20, 32, 1, true);
+	var geometry = new THREE.CylinderGeometry( .005, .005, .05, 32, 1, true);
 	var material = new THREE.MeshLambertMaterial( {color: 0xf0f0f0} );
-	geometry.rotateX( Math.PI / 2 );
-	tractor = new THREE.Mesh( geometry, material );
+ins	tractor = new THREE.Mesh( geometry, material );
 	
 	// Scene, Camera, Renderer Configuration
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -251,14 +250,18 @@ var mouse = new THREE.Vector2();
 function onMouseMove( event ) {
 	mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+	// update the picking ray with the camera and mouse position
 	raycaster.setFromCamera( mouse, camera );
-	// See if the ray from the camera into the world hits one of our meshes
-	var intersects = raycaster.intersectObject( earth );
+
+	// calculate objects intersecting the picking ray
+	var intersects = raycaster.intersectObjects( scene.children );
+	
 	// Toggle rotation bool for meshes that we clicked
 	if ( intersects.length > 0 ) {
 		console.log(intersects);
 		tractor.position.set( 0, 0, 0 );
-		tractor.lookAt( intersects[ 0 ].face.normal );
+		tractor.lookAt( intersects[ 0 ].point );
 		tractor.position.copy( intersects[ 0 ].point );
 	}
 }

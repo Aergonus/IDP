@@ -7,7 +7,6 @@ let textureLoader = new THREE.TextureLoader();
 let planetProto = {
   sphere: function(size) {
     let sphere = new THREE.SphereGeometry(size, 32, 32);
-    sphere.computeFaceNormals();
 	
     return sphere;
   },
