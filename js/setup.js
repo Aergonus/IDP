@@ -33,6 +33,8 @@ var moourls = [];
 var returnedMoos = [];
 var winmoo;
 
+var earth;
+
 init();
 
 // Setup Libraries, Acquire Locks, and Load Assets
@@ -80,7 +82,7 @@ function init() {
 	let textureLoader = new THREE.TextureLoader();
 	
 	// Earth
-	let earth = createPlanet({
+	earth = createPlanet({
 	  surface: {
 		size: 0.5,
 		material: {
