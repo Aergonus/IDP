@@ -1,5 +1,13 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
+// Scene, Camera, Renderer
+let renderer = new THREE.WebGLRenderer();
+let scene = new THREE.Scene();
+let aspect = window.innerWidth / window.innerHeight;
+let camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1500);
+let orbitControls = new THREE.OrbitControls(camera);
+let info = document.getElementById( 'info' );
+
 // XHR Loading functions
 // Function called when download progresses
 var onProgress = function ( xhr ) { 
@@ -23,7 +31,6 @@ function setup() {
 
 	blocker = document.getElementById( 'blocker' );
 	instructions = document.getElementById( 'instructions' );
-	info = document.getElementById( 'info' );
 
 	var lockchange = function ( event ) {
 
@@ -83,16 +90,14 @@ function setup() {
 					document.addEventListener("pause", lockchange, false );
 
 					instructions.addEventListener( 'click', function ( event ) {
-
 						instructions.style.display = 'none'; 
-
+						
 						// Unlock Pause
 						pause = false;
 						document.dispatchEvent(pauseEvent);
-
 					}, false );
 					
-					info.innerHTML = "All loaded";
+					info.innerHTML = "Resources Loaded, click to begin.";
 				}
 			},
 			// Function called when download progresses
