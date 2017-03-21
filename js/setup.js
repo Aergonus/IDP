@@ -47,7 +47,7 @@ function setup() {
 
 			instructions.style.display = '';
 			console.log("Paused");
-			document.removeEventListener( 'mousedown', checkmoo, false);
+			//document.removeEventListener( 'mousedown', checkmoo, false);
 		} else {
 
 			controlsEnabled = true;
@@ -57,7 +57,7 @@ function setup() {
 			
 			blocker.style.display = 'none';
 			
-			document.addEventListener( 'mousedown', checkmoo, false);
+			//document.addEventListener( 'mousedown', checkmoo, false);
 			console.log("Acquired");
 
 		}
@@ -99,6 +99,16 @@ function setup() {
 					}, false );
 					
 					info.innerHTML = "Resources Loaded, click to begin.";
+					
+sound = new THREE.PositionalAudio( listener );
+sound.setBuffer( returnedMoos[0] );
+sound.setRefDistance( 10 );
+sound.setRolloffFactor( 1 );
+sound.setDistanceModel('exponential');
+sound.setLoop(true);
+sound.play();
+
+animate();
 				}
 			},
 			// Function called when download progresses
@@ -107,16 +117,6 @@ function setup() {
 			onError
 		);
 	});
-	
-	sound = new THREE.PositionalAudio( listener );
-	sound.setBuffer( returnedMoos[0] );
-	sound.setRefDistance( 10 );
-	sound.setRolloffFactor( 1 );
-	sound.setDistanceModel('exponential');
-	sound.setLoop(true);
-	sound.play();
-	
-	animate();
 }
 
 setup();
