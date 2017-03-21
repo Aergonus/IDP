@@ -5,7 +5,7 @@ let renderer = new THREE.WebGLRenderer();
 let scene = new THREE.Scene();
 let aspect = window.innerWidth / window.innerHeight;
 let camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1500);
-let orbitControls = new THREE.OrbitControls(camera);
+let controls = new THREE.OrbitControls(camera);
 let info = document.getElementById( 'info' );
 let listener = new THREE.AudioListener(); // instantiate a listener
 
