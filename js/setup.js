@@ -127,7 +127,7 @@ animate();
 setup();
 
 function animate() {
-	if ( controlsEnabled ) { animateCamera( delta ); }
+	//if ( controlsEnabled ) { animateCamera( delta ); }
 
 	renderer.render( scene, camera );
 
