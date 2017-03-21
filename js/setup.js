@@ -34,6 +34,7 @@ var returnedMoos = [];
 var winmoo;
 
 var earth;
+var tractor; 
 
 init();
 
@@ -132,7 +133,11 @@ function init() {
 	  }
 	);
 	
-
+	var geometry = new THREE.CylinderGeometry( 5, 5, 20, 32, 1, true);
+	var material = new THREE.MeshLambertMaterial( {color: 0xf0f0f0} );
+	geometry.rotateX( Math.PI / 2 );
+	tractor = new THREE.Mesh( geometry, material );
+	
 	// Scene, Camera, Renderer Configuration
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
@@ -143,6 +148,7 @@ function init() {
 	scene.add(spotLight);
 	scene.add(ambientLight);
 	scene.add(earth);
+	scene.add(tractor);
 	//scene.fog = new THREE.FogExp2( 0x000000, 0.0025 );
 
 	// Light Configurations
@@ -174,6 +180,7 @@ function unlock() {
 			instructions.style.display = '';
 			info.innerHTML = "Paused";
 			//document.removeEventListener( 'mousedown', checkmoo, false);
+			document.addEventListener( 'mousemove', onMouseMove, false );
 		} else {
 
 			controlsEnabled = true;
@@ -184,6 +191,7 @@ function unlock() {
 			blocker.style.display = 'none';
 			
 			//document.addEventListener( 'mousedown', checkmoo, false);
+			document.addEventListener( 'mousemove', onMouseMove, false );
 			info.innerHTML = "moo.";
 		}
 
@@ -235,6 +243,20 @@ function animate() {
 	stats.update();
 
 	requestAnimationFrame( animate );
+}
+
+function onMouseMove( event ) {
+	mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+	raycaster.setFromCamera( mouse, camera );
+	// See if the ray from the camera into the world hits one of our meshes
+	var intersects = raycaster.intersectObject( earth );
+	// Toggle rotation bool for meshes that we clicked
+	if ( intersects.length > 0 ) {
+		tractor.position.set( 0, 0, 0 );
+		tractor.lookAt( intersects[ 0 ].face.normal );
+		tractor.position.copy( intersects[ 0 ].point );
+	}
 }
 
 // dat.gui
