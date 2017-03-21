@@ -86,7 +86,7 @@ function init() {
 	  surface: {
 		size: 0.5,
 		material: {
-		  bumpScale: 0.1,
+		  bumpScale: 0.25s,
 		  specular: new THREE.Color('grey'),
 		  shininess: 10
 		},
@@ -226,7 +226,7 @@ function animate() {
 	listener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
 	
 	// Move atmosphere
-	earth.getObjectByName('atmosphere').rotation.y += 1/16 * 0.01;
+	earth.getObjectByName('atmosphere').rotation.y += 1/16 * 0.005;
 	
 	camera.lookAt(earth.position);
 	
