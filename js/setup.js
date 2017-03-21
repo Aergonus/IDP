@@ -8,6 +8,7 @@ let camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1500);
 let controls = new THREE.OrbitControls(camera);
 let info = document.getElementById( 'info' );
 let listener = new THREE.AudioListener(); // instantiate a listener
+let controlsEnabled = false;
 
 var sound; 
 
@@ -107,6 +108,10 @@ sound.setRolloffFactor( 1 );
 sound.setDistanceModel('exponential');
 sound.setLoop(true);
 sound.play();
+
+// events
+
+addEventListeners();
 
 animate();
 				}
