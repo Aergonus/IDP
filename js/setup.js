@@ -86,7 +86,7 @@ function init() {
 	  surface: {
 		size: 0.5,
 		material: {
-		  bumpScale: 0.05,
+		  bumpScale: 0.1,
 		  specular: new THREE.Color('grey'),
 		  shininess: 10
 		},
@@ -224,6 +224,9 @@ function animate() {
 	// 3D Sound Spatial Transform Update
 	listener.position.copy( audioPos.setFromMatrixPosition( camera.matrixWorld ) );
 	listener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
+	
+	// Move atmosphere
+	earth.getObjectByName('atmosphere').rotation.y += 1/16 * 0.01;
 	
 	camera.lookAt(earth.position);
 	
