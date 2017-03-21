@@ -256,6 +256,7 @@ function onMouseMove( event ) {
 	var intersects = raycaster.intersectObject( earth );
 	// Toggle rotation bool for meshes that we clicked
 	if ( intersects.length > 0 ) {
+		console.log(intersects);
 		tractor.position.set( 0, 0, 0 );
 		tractor.lookAt( intersects[ 0 ].face.normal );
 		tractor.position.copy( intersects[ 0 ].point );
