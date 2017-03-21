@@ -135,7 +135,7 @@ function init() {
 	
 	var geometry = new THREE.CylinderGeometry( .005, .005, .05, 32, 1, true);
 	var material = new THREE.MeshLambertMaterial( {color: 0xf0f0f0} );
-ins	tractor = new THREE.Mesh( geometry, material );
+	tractor = new THREE.Mesh( geometry, material );
 	
 	// Scene, Camera, Renderer Configuration
 	renderer.setSize(window.innerWidth, window.innerHeight);
