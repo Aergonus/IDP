@@ -222,8 +222,8 @@ function animate() {
 	//if ( controlsEnabled ) { animateCamera( delta ); }
 	
 	// 3D Sound Spatial Transform Update
-	audioListener.position.copy( audioPos.setFromMatrixPosition( camera.matrixWorld ) );
-	audioListener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
+	listener.position.copy( audioPos.setFromMatrixPosition( camera.matrixWorld ) );
+	listener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
 	
 	camera.lookAt(earth.position);
 	
@@ -260,6 +260,7 @@ var markersControls = new function() {
 guiMarkers.add(markersControls, 'address');
 guiMarkers.addColor(markersControls, 'color');
 guiMarkers.add(markersControls, 'placeMarker');
+guiMarkers.open();
 
 // stats
 stats = new Stats();
