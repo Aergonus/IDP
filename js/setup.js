@@ -26,14 +26,12 @@ var onError = function ( xhr ) {
 	console.log( 'An error happened' );
 };
 
-var return_vec = new THREE.Vector3();
-
 function randomSpherePoint(x0,y0,z0,radius){
    var u = Math.random();
    var v = Math.random();
    var theta = 2 * Math.PI * u;
    var phi = Math.acos(2 * v - 1);
-   return_vec.set(x0 + (radius * Math.sin(phi) * Math.cos(theta)), y0 + (radius * Math.sin(phi) * Math.sin(theta)), z0 + (radius * Math.cos(phi)));
+   return [(x0 + (radius * Math.sin(phi) * Math.cos(theta)), y0 + (radius * Math.sin(phi) * Math.sin(theta)), z0 + (radius * Math.cos(phi)))];
 }
 
 var totalCalls = ajaxCallsRemaining = 12;
@@ -151,7 +149,7 @@ function init() {
 	var cow_geometry = new THREE.BoxGeometry( 20, 20, 20 );
 	var cow_material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 	cow = new THREE.Mesh( cow_geometry, cow_material );
-	cow.position.copy(randomSpherePoint(0,0,0,.75));
+	cow.position.set(randomSpherePoint(0,0,0,.75));
 	cow.visible = false;
 	
 	// Scene, Camera, Renderer Configuration
