@@ -133,7 +133,7 @@ function init() {
 	  }
 	);
 	
-	var geometry = new THREE.CylinderGeometry( .005, .005, .05, 32, 1, true);
+	var geometry = new THREE.CylinderGeometry( .007, .007, .1, 32, 1, true);
 	var material = new THREE.MeshLambertMaterial( {color: 0xf0f0f0} );
 	tractor = new THREE.Mesh( geometry, material );
 	
@@ -228,11 +228,6 @@ var audioPos = new THREE.Vector3();
 var audioRot = new THREE.Euler();
 
 function animate() {
-	// 3D Sound Spatial Transform Update
-	camera.updateMatrixWorld();
-	listener.position.copy( audioPos.setFromMatrixPosition( camera.matrixWorld ) );
-	listener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
-	
 	// Move atmosphere
 	earth.getObjectByName('atmosphere').rotation.y += 1/16 * 0.005;
 	
@@ -261,9 +256,14 @@ function onMouseMove( event ) {
 	// Toggle rotation bool for meshes that we clicked
 	if ( intersects.length > 0 ) {
 		console.log(intersects[ 0 ].point);
-		tractor.position.set( 0, 0, 0 );
-		tractor.lookAt( intersects[ 0 ].point );
 		tractor.position.copy( intersects[ 0 ].point );
+		tractor.lookAt(0,0,0);
+	
+		// 3D Sound Spatial Transform Update
+		listener.position.copy( audioPos.setFromMatrixPosition( tractor.matrixWorld ) );
+		listener.rotation.copy( audioRot.setFromRotationMatrix( tractor.matrixWorld ) );
+		
+		// Visual fix
 		tractor.rotateX(3.14/2);
 	}
 }
