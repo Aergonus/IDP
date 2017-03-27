@@ -279,6 +279,8 @@ function onMouseMove( event ) {
 		// Visual fix
 		tractor.rotateX(Math.PI/2);
 	}
+	
+	console.log(tractor.position.distanceTo(cow.position));
 }
 
 // dat.gui
