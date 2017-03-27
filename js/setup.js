@@ -12,6 +12,7 @@ let controlsEnabled = false;
 
 var velocity = new THREE.Vector3();
 var acceleration = new THREE.Vector3();
+var cowrand = new THREE.Euler( 2 * Math.PI * Math.random(), 2 * Math.PI * Math.random(), 2 * Math.PI * Math.random(), 'XYZ' );
 
 // XHR Loading functions
 // Function called when download progresses
@@ -25,14 +26,6 @@ var onProgress = function ( xhr ) {
 var onError = function ( xhr ) {
 	console.log( 'An error happened' );
 };
-
-function randomSpherePoint(x0,y0,z0,radius){
-   var u = Math.random();
-   var v = Math.random();
-   var theta = 2 * Math.PI * u;
-   var phi = Math.acos(2 * v - 1);
-   return [(x0 + (radius * Math.sin(phi) * Math.cos(theta)), y0 + (radius * Math.sin(phi) * Math.sin(theta)), z0 + (radius * Math.cos(phi)))];
-}
 
 var totalCalls = ajaxCallsRemaining = 12;
 var moourls = [];
@@ -149,7 +142,7 @@ function init() {
 	var cow_geometry = new THREE.BoxGeometry( 20, 20, 20 );
 	var cow_material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 	cow = new THREE.Mesh( cow_geometry, cow_material );
-	cow.position.set(randomSpherePoint(0,0,0,.75));
+	cow.position.set(0,.75,0);
 	cow.visible = false;
 	
 	// Scene, Camera, Renderer Configuration
@@ -233,6 +226,7 @@ function unlock() {
 	sound.setLoop(true);
 	sound.play();
 	
+	cow.position.applyEuler(cowrand);
 	cow.add(sound);
 	scene.add(cow);
 	
