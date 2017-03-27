@@ -256,7 +256,7 @@ function onMouseMove( event ) {
 	raycaster.setFromCamera( mouse, camera );
 
 	// calculate objects intersecting the picking ray
-	var intersects = raycaster.intersectObjects( earth, true );
+	var intersects = raycaster.intersectObjects( [earth], true );
 	
 	// Toggle rotation bool for meshes that we clicked
 	if ( intersects.length > 0 ) {
