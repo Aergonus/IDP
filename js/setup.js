@@ -256,8 +256,9 @@ function onMouseMove( event ) {
 	// Toggle rotation bool for meshes that we clicked
 	if ( intersects.length > 0 ) {
 		console.log(intersects[ 0 ].point);
+		tractor.position.set( 0, 0, 0 );
+		tractor.lookAt( intersects[ 0 ].point );
 		tractor.position.copy( intersects[ 0 ].point );
-		tractor.lookAt(0,0,0);
 	
 		// 3D Sound Spatial Transform Update
 		listener.position.copy( audioPos.setFromMatrixPosition( tractor.matrixWorld ) );
