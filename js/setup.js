@@ -247,7 +247,7 @@ function animate() {
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
-
+var obj = [earth.children[0]];
 function onMouseMove( event ) {
 	mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
@@ -256,7 +256,7 @@ function onMouseMove( event ) {
 	raycaster.setFromCamera( mouse, camera );
 
 	// calculate objects intersecting the picking ray
-	var intersects = raycaster.intersectObjects( [earth], true );
+	var intersects = raycaster.intersectObjects( obj, true );
 	
 	// Toggle rotation bool for meshes that we clicked
 	if ( intersects.length > 0 ) {
@@ -264,6 +264,7 @@ function onMouseMove( event ) {
 		tractor.position.set( 0, 0, 0 );
 		tractor.lookAt( intersects[ 0 ].point );
 		tractor.position.copy( intersects[ 0 ].point );
+		tractor.rotateX(3.14/2);
 	}
 }
 
