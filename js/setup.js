@@ -85,7 +85,7 @@ function init() {
 	// Earth
 	earth = createPlanet({
 	  surface: {
-		size: 0.5,
+		size: .995,
 		material: {
 		  bumpScale: 0.25,
 		  specular: new THREE.Color('grey'),
@@ -98,7 +98,7 @@ function init() {
 		}
 	  },
 	  atmosphere: {
-		size: 0.003,
+		size: 0.005,
 		material: {
 		  opacity: 0.8
 		},
@@ -229,6 +229,7 @@ var audioRot = new THREE.Euler();
 
 function animate() {
 	// 3D Sound Spatial Transform Update
+	camera.updateMatrixWorld();
 	listener.position.copy( audioPos.setFromMatrixPosition( camera.matrixWorld ) );
 	listener.rotation.copy( audioRot.setFromRotationMatrix( camera.matrixWorld ) );
 	
@@ -255,12 +256,11 @@ function onMouseMove( event ) {
 	raycaster.setFromCamera( mouse, camera );
 
 	// calculate objects intersecting the picking ray
-	var intersects = raycaster.intersectObjects( scene.children );
+	var intersects = raycaster.intersectObjects( earth, true );
 	
 	// Toggle rotation bool for meshes that we clicked
 	if ( intersects.length > 0 ) {
 		console.log(intersects);
-		tractor.position.set( 0, 0, 0 );
 		tractor.lookAt( intersects[ 0 ].point );
 		tractor.position.copy( intersects[ 0 ].point );
 	}
