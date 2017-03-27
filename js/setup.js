@@ -7,13 +7,11 @@ let aspect		= window.innerWidth / window.innerHeight;
 let camera		= new THREE.PerspectiveCamera(45, aspect, 0.1, 1500);
 let controls	= new THREE.OrbitControls(camera);
 let info		= document.getElementById( 'info' );
-let listener	= new THREE.AudioListener(); // instantiate a listener
+var listener	= new THREE.AudioListener(); // instantiate a listener
 let controlsEnabled = false;
 
 var velocity = new THREE.Vector3();
 var acceleration = new THREE.Vector3();
-
-var sound; // temp to replace TODO:
 
 // XHR Loading functions
 // Function called when download progresses
@@ -28,11 +26,22 @@ var onError = function ( xhr ) {
 	console.log( 'An error happened' );
 };
 
+var return_vec = new THREE.Vector3();
+
+function randomSpherePoint(x0,y0,z0,radius){
+   var u = Math.random();
+   var v = Math.random();
+   var theta = 2 * Math.PI * u;
+   var phi = Math.acos(2 * v - 1);
+   return_vec.set(x0 + (radius * Math.sin(phi) * Math.cos(theta)), y0 + (radius * Math.sin(phi) * Math.sin(theta)), z0 + (radius * Math.cos(phi)));
+}
+
 var totalCalls = ajaxCallsRemaining = 12;
 var moourls = [];
 var returnedMoos = [];
 var winmoo;
 
+var cow;
 var earth;
 var tractor; 
 
@@ -133,9 +142,17 @@ function init() {
 	  }
 	);
 	
-	var geometry = new THREE.CylinderGeometry( .007, .007, .1, 32, 1, true);
-	var material = new THREE.MeshLambertMaterial( {color: 0xf0f0f0} );
-	tractor = new THREE.Mesh( geometry, material );
+	// Tractor Beam
+	var tract_geometry = new THREE.CylinderGeometry( .007, .007, .1, 32, 1, true);
+	var tract_material = new THREE.MeshLambertMaterial( {color: 0xf0f0f0} );
+	tractor = new THREE.Mesh( tract_geometry, tract_material );
+	
+	// Cow
+	var cow_geometry = new THREE.BoxGeometry( 20, 20, 20 );
+	var cow_material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+	cow = new THREE.Mesh( cow_geometry, cow_material );
+	cow.position.copy(randomSpherePoint(0,0,0,.75));
+	cow.visible = false;
 	
 	// Scene, Camera, Renderer Configuration
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -148,6 +165,7 @@ function init() {
 	scene.add(ambientLight);
 	scene.add(earth);
 	scene.add(tractor);
+
 	//scene.fog = new THREE.FogExp2( 0x000000, 0.0025 );
 
 	// Light Configurations
@@ -209,14 +227,17 @@ function unlock() {
 	
 	info.innerHTML = "Resources Loaded, click to begin.";
 	
-sound = new THREE.PositionalAudio( listener );
-sound.setBuffer( returnedMoos[0] );
-sound.setRefDistance( 10 );
-sound.setRolloffFactor( 1 );
-sound.setDistanceModel('exponential');
-sound.setLoop(true);
-sound.play();
-
+	sound = new THREE.PositionalAudio( listener );
+	sound.setBuffer( returnedMoos[0] );
+	sound.setRefDistance( 10 );
+	sound.setRolloffFactor( 1 );
+	sound.setDistanceModel('exponential');
+	sound.setLoop(true);
+	sound.play();
+	
+	cow.add(sound);
+	scene.add(cow);
+	
 	// events
 
 	addEventListeners();
@@ -255,7 +276,6 @@ function onMouseMove( event ) {
 	
 	// Toggle rotation bool for meshes that we clicked
 	if ( intersects.length > 0 ) {
-		console.log(intersects[ 0 ].point);
 		tractor.position.set( 0, 0, 0 );
 		tractor.lookAt( intersects[ 0 ].point );
 		tractor.position.copy( intersects[ 0 ].point );
@@ -265,7 +285,7 @@ function onMouseMove( event ) {
 		listener.rotation.copy( audioRot.setFromRotationMatrix( tractor.matrixWorld ) );
 		
 		// Visual fix
-		tractor.rotateX(3.14/2);
+		tractor.rotateX(Math.PI/2);
 	}
 }
 
