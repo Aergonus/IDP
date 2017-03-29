@@ -28,6 +28,7 @@ var onError = function ( xhr ) {
 };
 
 var totalCalls = ajaxCallsRemaining = 11;
+var cowsfound = 0;
 var moourls = [];
 var returnedMoos = [];
 var winmoo = new Audio('./media/sounds/win.mp3');
