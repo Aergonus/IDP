@@ -234,8 +234,6 @@ function unlock() {
 	cow.add(sound);
 	scene.add(cow);
 	
-	camera.add(listener);
-	
 	// events
 
 	addEventListeners();
@@ -279,21 +277,20 @@ function onMouseMove( event ) {
 		tractor.position.copy( intersects[ 0 ].point );
 	
 		// 3D Sound Spatial Transform Update
-		//listener.position.copy( audioPos.setFromMatrixPosition( tractor.matrixWorld ) );
-		//listener.rotation.copy( audioRot.setFromRotationMatrix( tractor.matrixWorld ) );
+		listener.position.copy( audioPos.setFromMatrixPosition( tractor.matrixWorld ) );
+		listener.rotation.copy( audioRot.setFromRotationMatrix( tractor.matrixWorld ) );
 		
 		// Max is approx 2, goes down to approx 0.1
-		let sound_model = Math.max(10 - Math.floor(camera.position.distanceTo(cow.position)/ 0.2),0);
+		let sound_model = Math.max(10 - Math.floor(tractor.position.distanceTo(cow.position)/ 0.2),0);
 
 		if (current_sound != sound_model) {
-			console.log("Paused!");
 			sound.pause();
 			sound.setBuffer( returnedMoos[sound_model] );
 			sound.play();
 			current_sound = sound_model;
 		}
 
-		console.log(camera.position.distanceTo(cow.position));
+		console.log(tractor.position.distanceTo(cow.position));
 		console.log(sound_model);
 		
 		// Visual fix
