@@ -220,15 +220,17 @@ function unlock() {
 	
 	sound = new THREE.PositionalAudio( listener );
 	sound.setBuffer( returnedMoos[0] );
-	sound.setRefDistance( 10 );
+	sound.setRefDistance( 1 );
 	sound.setRolloffFactor( 1 );
-	sound.setDistanceModel('exponential');
+	sound.setDistanceModel('inverse');
 	sound.setLoop(true);
 	sound.play();
 	
 	cow.position.applyEuler(cowrand);
 	cow.add(sound);
 	scene.add(cow);
+	
+	camera.add(listener);
 	
 	// events
 
@@ -273,14 +275,14 @@ function onMouseMove( event ) {
 		tractor.position.copy( intersects[ 0 ].point );
 	
 		// 3D Sound Spatial Transform Update
-		listener.position.copy( audioPos.setFromMatrixPosition( tractor.matrixWorld ) );
-		listener.rotation.copy( audioRot.setFromRotationMatrix( tractor.matrixWorld ) );
+		//listener.position.copy( audioPos.setFromMatrixPosition( tractor.matrixWorld ) );
+		//listener.rotation.copy( audioRot.setFromRotationMatrix( tractor.matrixWorld ) );
 		
 		// Visual fix
 		tractor.rotateX(Math.PI/2);
 	}
 	
-	console.log(tractor.position.distanceTo(cow.position));
+	console.log(camera.position.distanceTo(cow.position));
 }
 
 // dat.gui
