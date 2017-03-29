@@ -288,7 +288,7 @@ function animate() {
 }
 
 function checkmoo(event){
-	console.log("Check Moo");
+	console.log(tractor.position.distanceTo(cow.position));
 	
 	if(tractor.position.distanceTo(cow.position) < 0.05) {
 		cowsfound++;
