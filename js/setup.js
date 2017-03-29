@@ -286,13 +286,14 @@ function onMouseMove( event ) {
 		let sound_model = Math.max(10 - Math.floor(camera.position.distanceTo(cow.position)/ 0.2),0);
 
 		if (current_sound != sound_model) {
+			console.log("Paused!");
 			sound.pause();
 			sound.setBuffer( returnedMoos[sound_model] );
 			sound.play();
 		}
 
 		console.log(camera.position.distanceTo(cow.position));
-		console.log(sound_model);		
+		console.log(sound_model);
 		
 		// Visual fix
 		tractor.rotateX(Math.PI/2);
