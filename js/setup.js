@@ -170,6 +170,7 @@ function init() {
 
 }
 
+var current_sound;
 // Runs once after page is loaded
 function unlock() {
 	blocker = document.getElementById( 'blocker' );
@@ -221,11 +222,13 @@ function unlock() {
 	sound = new THREE.PositionalAudio( listener );
 	sound.setBuffer( returnedMoos[0] );
 	sound.setRefDistance( 0.05 );
-	sound.setMaxDistance( 3 );
+	sound.setMaxDistance( 2.10 );
 	sound.setRolloffFactor( 1 );
 	sound.setDistanceModel('linear');
 	sound.setLoop(true);
 	sound.play();
+	
+	current_sound = 0;
 	
 	cow.position.applyEuler(cowrand);
 	cow.add(sound);
@@ -279,11 +282,21 @@ function onMouseMove( event ) {
 		//listener.position.copy( audioPos.setFromMatrixPosition( tractor.matrixWorld ) );
 		//listener.rotation.copy( audioRot.setFromRotationMatrix( tractor.matrixWorld ) );
 		
+		// Max is approx 2, goes down to approx 0.1
+		let sound_model = Math.max(10 - Math.floor(camera.position.distanceTo(cow.position)/ 0.2),0);
+
+		if (current_sound != sound_model) {
+			sound.pause();
+			sound.setBuffer( returnedMoos[sound_model] );
+			sound.play();
+		}
+
+		console.log(camera.position.distanceTo(cow.position));
+		console.log(sound_model);		
+		
 		// Visual fix
 		tractor.rotateX(Math.PI/2);
 	}
-	
-	console.log(camera.position.distanceTo(cow.position));
 }
 
 // dat.gui
