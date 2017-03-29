@@ -290,6 +290,7 @@ function onMouseMove( event ) {
 			sound.pause();
 			sound.setBuffer( returnedMoos[sound_model] );
 			sound.play();
+			current_sound = sound_model;
 		}
 
 		console.log(camera.position.distanceTo(cow.position));
