@@ -179,6 +179,8 @@ function unlock() {
 
 	var lockchange = function ( event ) {
 		if ( pause ) {
+			sound.pause();
+			
 			controls.enabled = false;
 			
 			//var delta = clock.getDelta(); // Added to prevent movement
@@ -221,6 +223,7 @@ function unlock() {
 			document.removeEventListener( 'mousedown', checkmoo, false);
 			document.removeEventListener( 'mousemove', onMouseMove, false );
 		} else {
+			sound.play();
 
 			controlsEnabled = true;
 			controls.enabled = true;
@@ -294,9 +297,6 @@ function checkmoo(event){
 	if(tractor.position.distanceTo(cow.position) < 0.05) {
 		cowsfound++;
 		
-		info = document.getElementById( 'info' );
-		info.innerHTML = cowsfound <= 1 ? cowsfound + " moo" : cowsfound + " moos";
-		
 		sound.pause();
 		winmoo.play();
 		blocker = document.getElementById( 'blocker' );
@@ -330,6 +330,9 @@ function checkmoo(event){
 		pause = true;
 		
 		document.dispatchEvent(pauseEvent);
+		
+		info = document.getElementById( 'info' );
+		info.innerHTML = cowsfound <= 1 ? cowsfound + " moo" : cowsfound + " moos";
 	}
 }
 
