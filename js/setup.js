@@ -142,7 +142,7 @@ function init() {
 	var cow_geometry = new THREE.BoxGeometry( 20, 20, 20 );
 	var cow_material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 	cow = new THREE.Mesh( cow_geometry, cow_material );
-	cow.position.set(0,.75,0);
+	cow.position.set(0,.95,0);
 	cow.visible = false;
 	
 	// Scene, Camera, Renderer Configuration
@@ -220,9 +220,10 @@ function unlock() {
 	
 	sound = new THREE.PositionalAudio( listener );
 	sound.setBuffer( returnedMoos[0] );
-	sound.setRefDistance( 1 );
+	sound.setRefDistance( 0.05 );
+	sound.setMaxDistance( 3 );
 	sound.setRolloffFactor( 1 );
-	sound.setDistanceModel('inverse');
+	sound.setDistanceModel('linear');
 	sound.setLoop(true);
 	sound.play();
 	
