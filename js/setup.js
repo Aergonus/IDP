@@ -107,10 +107,9 @@ function init() {
 	/*** Start Loading Assets ***/
 
 	/** Initializing Lights **/
-	/*
 	;(function(){
 		// add a ambient light
-		let ambientLight	= new THREE.AmbientLight( 0x404040 ); // soft white light
+		var ambientLight	= new THREE.AmbientLight( 0x404040 ); // soft white light
 		scene.add( ambientLight );
 		// new THREE.SpotLight(0xffffff, .25, 0, 10, 2);
 		// add a light in front
@@ -122,15 +121,15 @@ function init() {
 		backlight.position.set(-0.5, -0.5, -2)
 		scene.add( backlight )
 	})()
-	*/
 	/** Loading Enviroment **/
 	// Texture Loader
 	let textureLoader = new THREE.TextureLoader();
 	
 	// Later: Todo add Ocean at y=0
 	
+	/*
 	// Galaxy
-	let galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
+	let galaxyGeometry = new THREE.SphereGeometry(10000, 32, 32);
 	let galaxyMaterial = new THREE.MeshBasicMaterial({
 	  side: THREE.BackSide
 	});
@@ -145,10 +144,31 @@ function init() {
 		scene.add(galaxy);
 	  }
 	);
+	*/
+	var mapsize = 128;
+	var maxheight = 128;
+	var heightMap	= THREEx.Terrain.allocateHeightMap(mapsize, maxheight);
+	THREEx.Terrain.simplexHeightMap(heightMap);
+	// build the geometry
+	var groundGeometry	= THREEx.Terrain.heightMapToPlaneGeometry(heightMap);
+	THREEx.Terrain.heightMapToVertexColor(heightMap, groundGeometry);
+	// init the material
+	var groundMaterial	= new THREE.MeshPhongMaterial({
+		shading		: THREE.FlatShading,
+		vertexColors 	: THREE.VertexColors,
+	});
+	// create the mesh and add it to the scene
+	var ground	= new THREE.Mesh( groundGeometry, groundMaterial );
+	ground.rotateX(-Math.PI/2)
+	ground.scale.x	= 20*10
+	ground.scale.y	= 20*10
+	ground.scale.z	= 1*10 
 	
 	/** Loading Tanks **/
 	// Create Player Tank
-	//player = createTank();
+	player = createTank();
+	player.position.set(mapsize*Math.random(),0,mapsize*Math.random());
+	player.position.setY(player.height+THREEx.Terrain.planeToHeightMapCoords(heightMap, ground, player.position.x, player.position.z));
 	
 	// Scene, Camera, Renderer Configuration
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -157,13 +177,17 @@ function init() {
 	THREEx.WindowResize(renderer, camera); // Resize Event Listener
 
 	// camera.position.set(1,1,1);
-	camera.position.y = 5;
-
+	player.add(camera);
+	camera.position.set(0,1.50,-1.50);
+	camera.lookAt(player.position);
+	camera.position.set(0,2.50,-1.50);
+	
 	scene.add(camera);
 	scene.add(controls.getObject());
-	scene.add(galaxy);
+	scene.add(ground);
+	//scene.add(galaxy);
 	
-	//scene.add(player);
+	scene.add(player);
 
 	//scene.fog = new THREE.FogExp2( 0x000000, 0.0025 );
 	
@@ -204,7 +228,7 @@ function init() {
 
 function animate() {
 	var delta = clock.getDelta();
-
+	
 	//if ( controlsEnabled ) { animateCamera( delta ); }
 
 	renderer.render( scene, camera );

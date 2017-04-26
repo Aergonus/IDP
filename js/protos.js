@@ -208,37 +208,35 @@ let tankProto = {
 		let gun = new THREE.BoxGeometry(width, height, depth);
 		
 		return gun;
-	},
-	material: function() {
-		let material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
 	}
 }
 
 let createTank = function(options) {
 	var groupTank = new THREE.Group();
+	var scale = 10;
+	let tankMaterial = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
 	
-	let tankMaterial = tankProto.material();
-	
-	let bodyGeometry = tankProto.body( 72, 42, 120 );
+	let bodyGeometry = tankProto.body( scale*.72, scale*.42, scale*1.20 );
 	let bodyMesh = new THREE.Mesh( bodyGeometry, tankMaterial );
 	groupTank.add( bodyMesh );
 	
 	groupUpper = new THREE.Group();
-	groupUpper.position.y = 35.0;
+	groupUpper.position.y = scale*.350;
 	groupTank.add( groupUpper );
 	
-	let turretGeometry = tankProto.turret( 40, 28, 68 );
+	let turretGeometry = tankProto.turret( scale*.40, scale*.28, scale*.68 );
 	let turretMesh = new THREE.Mesh( turretGeometry, tankMaterial );
 	groupUpper.add( turretMesh );
 	
 	let gunHolder = new THREE.Object3D();
-	let gunGeometry = tankProto.gun( 10.0, 10.0, 80.0 );
+	let gunGeometry = tankProto.gun( scale*.100, scale*.100, scale*.800 );
 	let gunMesh = new THREE.Mesh( gunGeometry, tankMaterial );
-	gunMesh.position.z = 40.0;
-	gunHolder.position.set( 0.0, 3.0, 34.0 );
+	gunMesh.position.z = scale*.400;
+	gunHolder.position.set( scale*0.0, scale*.030, scale*.340 );
 	gunHolder.add( gunMesh );
 	groupUpper.add( gunHolder );
 	
+	groupTank.height = scale*.42;
 	groupTank.turret = groupUpper;
 	groupTank.gun = gunHolder;
 	
