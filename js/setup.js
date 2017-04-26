@@ -139,7 +139,7 @@ function init() {
 	// Load Galaxy Textures
 	textureLoader.crossOrigin = true;
 	textureLoader.load(
-	  'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
+	  './media/starfield.png',
 	  function(texture) {
 		galaxyMaterial.map = texture;
 		scene.add(galaxy);
