@@ -107,6 +107,7 @@ function init() {
 	/*** Start Loading Assets ***/
 
 	/** Initializing Lights **/
+	/*
 	;(function(){
 		// add a ambient light
 		let ambientLight	= new THREE.AmbientLight( 0x404040 ); // soft white light
@@ -121,7 +122,7 @@ function init() {
 		backlight.position.set(-0.5, -0.5, -2)
 		scene.add( backlight )
 	})()
-
+	*/
 	/** Loading Enviroment **/
 	// Texture Loader
 	let textureLoader = new THREE.TextureLoader();
