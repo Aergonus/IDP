@@ -147,11 +147,11 @@ function init() {
 	
 	/** Loading Tanks **/
 	// Create Player Tank
-	player = createTank();
+	//player = createTank();
 	
 	// Scene, Camera, Renderer Configuration
 	renderer.setSize(window.innerWidth, window.innerHeight);
-	document.body.appendChild(renderer.domElement);
+	container.appendChild(renderer.domElement);
 	
 	THREEx.WindowResize(renderer, camera); // Resize Event Listener
 
@@ -202,6 +202,10 @@ function init() {
 }
 
 function animate() {
+	var delta = clock.getDelta();
+
+	//if ( controlsEnabled ) { animateCamera( delta ); }
+
 	renderer.render( scene, camera );
 
 	stats.update();
