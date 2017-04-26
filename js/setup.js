@@ -12,6 +12,8 @@ var player;
 var velocity = new THREE.Vector3();
 var acceleration = new THREE.Vector3();
 
+var container, stats;
+var clock = new THREE.Clock();
 
 // Initialize Three.JS
 init();
@@ -98,6 +100,9 @@ function init() {
 	
 	// Acquire Pointer Lock
 	initPointerLock();
+	
+	container = document.createElement( 'div' );
+	document.body.appendChild( container );
 	
 	/*** Start Loading Assets ***/
 
@@ -192,6 +197,8 @@ function init() {
 	})
 	*/
 
+	stats = new Stats();
+	container.appendChild( stats.dom );
 }
 
 function animate() {
@@ -219,6 +226,3 @@ guiMarkers.addColor(markersControls, 'color');
 guiMarkers.add(markersControls, 'placeMarker');
 guiMarkers.open();
 */
-// stats
-stats = new Stats();
-document.body.appendChild( stats.dom );

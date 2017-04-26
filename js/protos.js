@@ -210,7 +210,7 @@ let tankProto = {
 		return gun;
 	},
 	material: function() {
-		let material = new THREE.MeshLambertMaterial( { color: '#'+Math.floor(Math.random()*16777215).toString(16) } );
+		let material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
 	}
 }
 
