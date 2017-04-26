@@ -191,3 +191,56 @@ let placeMarkerAtAddress = function(address, color) {
     }
   };
 }
+
+// Tank Proto
+let tankProto = {
+	body: function(width, height, depth) {
+		let body = new THREE.BoxGeometry(width, height, depth);
+		
+		return body;
+	},
+	turret: function(width, height, depth) {
+		let turret = new THREE.BoxGeometry(width, height, depth);
+		
+		return turret;
+	},
+	gun: function(width, height, depth) {
+		let gun = new THREE.BoxGeometry(width, height, depth);
+		
+		return gun;
+	},
+	material: function() {
+		let material = new THREE.MeshLambertMaterial( { color: '#'+Math.floor(Math.random()*16777215).toString(16) } );
+	}
+}
+
+let createTank = function(options) {
+	var groupTank = new THREE.Group();
+	
+	let tankMaterial = tankProto.material();
+	
+	let bodyGeometry = tankProto.body( 72, 42, 120 );
+	let bodyMesh = new THREE.Mesh( bodyGeometry, tankMaterial );
+	groupTank.add( bodyMesh );
+	
+	groupUpper = new THREE.Group();
+	groupUpper.position.y = 35.0;
+	groupTank.add( groupUpper );
+	
+	let turretGeometry = tankProto.turret( 40, 28, 68 );
+	let turretMesh = new THREE.Mesh( turretGeometry, tankMaterial );
+	groupUpper.add( turretMesh );
+	
+	let gunHolder = new THREE.Object3D();
+	let gunGeometry = tankProto.gun( 10.0, 10.0, 80.0 );
+	let gunMesh = new THREE.Mesh( gunGeometry, tankMaterial );
+	gunMesh.position.z = 40.0;
+	gunHolder.position.set( 0.0, 3.0, 34.0 );
+	gunHolder.add( gunMesh );
+	groupUpper.add( gunHolder );
+	
+	groupTank.turret = groupUpper;
+	groupTank.gun = gunHolder;
+	
+	return groupTank;
+}
