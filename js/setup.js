@@ -1,7 +1,7 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 // Scene, Camera, Renderer
-let renderer	= new THREE.WebGLRenderer(antialias: true);
+let renderer	= new THREE.WebGLRenderer({ antialias: true });
 let scene		= new THREE.Scene();
 let camera		= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1500);
 let controls	= new THREE.PointerLockControls( camera );
@@ -156,7 +156,7 @@ function init() {
 	THREEx.WindowResize(renderer, camera); // Resize Event Listener
 
 	// camera.position.set(1,1,1);
-	camera.position.z = 3;
+	camera.position.y = 5;
 
 	scene.add(camera);
 	scene.add(controls.getObject());
