@@ -1,60 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Tansk 3D</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<meta name="description" content="A 3-D Port of Find the Invisible Cow - Made by Kangqiao Lei">
-		<link rel="shortcut icon" type="image/png" href="media/favicon.png"/>
-		<link rel="icon" type="image/x-icon" href="favicon.ico">
-		<link type="text/css" rel="stylesheet" href="css/stylesheet.css"/>
-	</head>
-	
-	<script type="text/javascript"> 
-		var debug = "It works!"; 
-		//document.getElementById("debug").textContent += "Foo blah bar";
-		console.log("Debug Text:" + debug);
-	</script>
-	
-	<body>
-		<div id="info">
-			moo.
-		</div>
-		<div id="blocker">
+
+<html>
+
+<head>
+    <title>Frogger Coop</title>
+
+    <style>
+
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        #blocker {
+
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            background-color: rgba(0,0,0,0.5);
+
+        }
+
+        #instructions {
+
+            width: 100%;
+            height: 100%;
+
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            box-pack: center;
+
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            box-align: center;
+
+            color: #ffffff;
+            text-align: center;
+
+            cursor: pointer;
+
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="webgl-container">
+    <div id="blocker">
+
+        <div id="instructions">
+            <span style="font-size:40px" id="message"></span> <br/> <br/>
+            <span style="font-size:40px" id="score"></span> <br/> <br/>
+            <span style="font-size:40px" id="click">Click to play</span> <br/> <br/>
+            (Directional Keys = Move)
 			
-			<div id="instructions">
-				<span style="font-size:40px">Click to play</span>
-				<br />
-				W, A, S, D, Space = Move Forward, Strafe Left, Move Backward, Strafe Right, Jump
-				<br />
-				LMB hold to charge shot and release to shoot
-			</div>
+			Original Frogger made by Harrison Zhao
+        </div>
 
-		</div>
+    </div>
+    <div id="rowNumDiv" style="position: absolute; z-index: 1; right: 50px; bottom: 20px; width:200px; height:60px; background-color: grey;">
+        <h1 id="rowNum" style="color: white; text-align:center;">Row: 0</h1>
+    </div>
+</div>
 
-		<script type="text/javascript" src="js/three.min.js"></script>
+<script src="vendor/three.min.js"></script>
+<script src="js/frogger/globals.js"></script>
+<script src="js/frogger/support.js"></script>
+<script src="js/frogger/player.js"></script>
+<script src="js/frogger/tree.js"></script>
+<script src="js/frogger/models.js"></script>
+<script src="js/frogger/vehicle.js"></script>
+<script src="js/frogger/log.js"></script>
+<script src="js/frogger/controls.js"></script>
+<script src="js/frogger/scene.js"></script>
+<script src="js/frogger/main.js"></script>
 
-		<script type="text/javascript" src="js/controls/PointerLockControls.js"></script>
+</body>
 
-		<script type="text/javascript" src="js/libs/Detector.js"></script>
-		<script type="text/javascript" src="js/libs/stats.min.js"></script>
-		<script type="text/javascript" src="js/libs/dat.gui.min.js"></script>
-		<script type="text/javascript" src="js/libs/SimplexNoise.js"></script>
-		<script type="text/javascript" src="js/libs/threex.terrain.js"></script>
-		
-		<script type="text/javascript" src="js/libs/threex.keyboardstate.js"></script>
-		<script type="text/javascript" src="js/libs/threex.windowresize.js"></script>
-		<!-- Note that Event Listeners has been replaced by threex libraries
-		<script type="text/javascript" src="js/EventListeners.js"></script> -->
-		
-		<script type="text/javascript" src="js/protos.js"></script>
-		<script type="text/javascript" src="js/setup.js"></script>
-		<!--<script type="text/javascript" src='js/game.js'></script>-->
-		
-		<script>
-
-
-		</script>
-		<div id="debug"></div>
-	</body>
 </html>
