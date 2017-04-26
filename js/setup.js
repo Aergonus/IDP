@@ -1,7 +1,7 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 // Scene, Camera, Renderer
-let renderer	= new THREE.WebGLRenderer();
+let renderer	= new THREE.WebGLRenderer(antialias: true);
 let scene		= new THREE.Scene();
 let camera		= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1500);
 let controls	= new THREE.PointerLockControls( camera );
@@ -162,7 +162,7 @@ function init() {
 	scene.add(controls.getObject());
 	scene.add(galaxy);
 	
-	scene.add(player);
+	//scene.add(player);
 
 	//scene.fog = new THREE.FogExp2( 0x000000, 0.0025 );
 	
