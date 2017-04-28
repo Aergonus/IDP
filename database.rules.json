@@ -59,44 +59,39 @@
         ".validate": "newData.hasChildren(['choice','score','uid'])",
         "score": {
           ".validate": "
-        					(
-        					  root.child('game/updated').val() == true && 
-        					    newData.val() == data.val()
-        					)
-                  || 
-                  (
-                    root.child('game/updated').val() == false && 
-                    (
-                  			(newData.val() == data.val() + 1 && root.child('game/blue/choice').val() == true && root.child('game/red/choice').val() == true)
-                  	 || (newData.val() == data.val() + 2 && root.child('game/blue/choice').val() == false && root.child('game/red/choice').val() == true)
-                  	 || (newData.val() == data.val() - 1 && root.child('game/blue/choice').val() == true && root.child('game/red/choice').val() == false)
-              			 || (newData.val() == data.val() - 2 && root.child('game/blue/choice').val() == false && root.child('game/red/choice').val() == false)
-                    )
-                  )"
+          			(
+        					root.child('game/updated').val() == true 
+          					? newData.val() == data.val()
+          					: (root.child('game/blue/choice').val() == true
+                       ? (root.child('game/red/choice').val() == true
+                          ? newData.val() == data.val() + 1
+                          : newData.val() == data.val() + -1
+                         )
+                       : (root.child('game/red/choice').val() == true
+                          ? newData.val() == data.val() + 2
+                          : newData.val() == data.val() + -2
+                         )
+                       )
+          			)
+          "
         },
         "uid": {
           ".validate": "
         					(
-        					  root.child('game/updated').val() == true && 
-        					    newData.val() == root.child('secret/blue/uid').val()
+        					  root.child('game/updated').val() == true 
+        					    ? newData.val() == root.child('secret/blue/uid').val()
+            					: newData.val() == data.val()
         					)
-                  || 
-                  (
-                    root.child('game/updated').val() == false && 
-                    	newData.val() == data.val()
-            			)"
+          "
         },
         "choice": {
           ".validate": "
-                  (
-                    root.child('game/updated').val() == true && 
-                      newData.val() == root.child('secret/blue/choice').val()
-                  )
-                  || 
-                  (
-                    root.child('game/updated').val() == false && 
-                      newData.val() == data.val()
-                  )"
+        					(
+        					  root.child('game/updated').val() == true 
+        					    ? newData.val() == root.child('secret/blue/uid').val()
+            					: newData.val() == data.val()
+        					)
+          "
         },
         "$other": { ".validate": false }
       },
@@ -105,48 +100,42 @@
         ".validate": "newData.hasChildren(['choice','score','uid'])",
         "score": {
           ".validate": "
-        					(
-        					  root.child('game/updated').val() == true && 
-        					    newData.val() == data.val()
-        					)
-                  || 
-                  (
-                    root.child('game/updated').val() == false && 
-                    (
-                  			(newData.val() == data.val() + 1 && root.child('game/red/choice').val() == true && root.child('game/blue/choice').val() == true)
-                  	 || (newData.val() == data.val() + 2 && root.child('game/red/choice').val() == false && root.child('game/blue/choice').val() == true)
-                  	 || (newData.val() == data.val() - 1 && root.child('game/red/choice').val() == true && root.child('game/blue/choice').val() == false)
-              			 || (newData.val() == data.val() - 2 && root.child('game/red/choice').val() == false && root.child('game/blue/choice').val() == false)
-                    )
-                  )"
+          			(
+        					root.child('game/updated').val() == true 
+          					? newData.val() == data.val()
+          					: (root.child('game/red/choice').val() == true
+                       ? (root.child('game/blue/choice').val() == true
+                          ? newData.val() == data.val() + 1
+                          : newData.val() == data.val() + -1
+                         )
+                       : (root.child('game/blue/choice').val() == true
+                          ? newData.val() == data.val() + 2
+                          : newData.val() == data.val() + -2
+                         )
+                       )
+          			)
+          "
         },
         "uid": {
           ".validate": "
         					(
-        					  root.child('game/updated').val() == true && 
-        					    newData.val() == root.child('secret/red/uid').val()
+        					  root.child('game/updated').val() == true 
+        					    ? newData.val() == root.child('secret/red/uid').val()
+            					: newData.val() == data.val()
         					)
-                  || 
-                  (
-                    root.child('game/updated').val() == false && 
-                    	newData.val() == data.val()
-            			)"
+          "
         },
         "choice": {
           ".validate": "
-                  (
-                    root.child('game/updated').val() == true && 
-                      newData.val() == root.child('secret/red/choice').val()
-                  )
-                  || 
-                  (
-                    root.child('game/updated').val() == false && 
-                      newData.val() == data.val()
-                  )"
+        					(
+        					  root.child('game/updated').val() == true 
+        					    ? newData.val() == root.child('secret/red/uid').val()
+            					: newData.val() == data.val()
+        					)
+          "
         },
         "$other": { ".validate": false }
       }
-
     },
     "secret": {
       // Once both turns are locked in, anyone can read and update. 
