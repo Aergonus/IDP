@@ -74,16 +74,29 @@ gameRef.on('value', function(snapshot) {
 			updated: true
 		});
 	}
+	red.innerHTML = "Score: " + gameData.red.score + " Last Move: " + (gameData.red.move ? "Cooperate" : "Defect");
+	blue.innerHTML = "Score: " + gameData.blue.score + " Last Move: " + (gameData.blue.move ? "Cooperate" : "Defect");
 });
 
 var pendingRef = database.ref('secret');
 
-gameRef.once('value').then(function(snapshot) {
-	gameData = snapshot.val();
-	
 	// Not sure if this is a race condition, so it's safer to enclose this inside here
 	pendingRef.on('value', function(snapshot) {
+	  console.log(snapshot.val());
 	  var pending = snapshot.val();
+	  console.log({
+		blue: {
+			choice: pending.blue.choice,
+			score: gameData.blue.score,
+			uid: pending.blue.uid
+		},
+		red: {
+			choice: pending.red.choice,
+			score: gameData.red.score,
+			uid: pending.red.uid
+		},
+		updated: false
+	  });
 	  gameRef.set({
 		blue: {
 			choice: pending.blue.choice,
@@ -98,7 +111,6 @@ gameRef.once('value').then(function(snapshot) {
 		updated: false
 	  });
 	});
-});
 
 var secretRef; 
 function take(color){
@@ -108,15 +120,13 @@ function take(color){
 	}).then(function(success) {
 		secretRef = database.ref("secret/"+color);
 		info.innerHTML = "You are " + color + " Player.";
+		red.innerHTML = "Score: " + gameData.red.score + " Last Move: " + (gameData.red.move ? "Cooperate" : "Defect");
+		blue.innerHTML = "Score: " + gameData.blue.score + " Last Move: " + (gameData.blue.move ? "Cooperate" : "Defect");
 		if (color == 'red'){
-			red.innerHTML = "Red";
-			blue.innerHTML = "";
 			//blue.style.display = 'none';
 			document.body.style.backgroundColor = '#FFCCCC';
 		}
 		if (color == 'blue') {
-			blue.innerHTML = "Blue";
-			red.innerHTML = "";
 			//red.style.display = 'none';
 			document.body.style.backgroundColor = '#CCCCFF';
 		}

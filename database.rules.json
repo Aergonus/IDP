@@ -88,7 +88,7 @@
           ".validate": "
         					(
         					  root.child('game/updated').val() == true 
-        					    ? newData.val() == root.child('secret/blue/uid').val()
+        					    ? newData.val() == root.child('secret/blue/choice').val()
             					: newData.val() == data.val()
         					)
           "
@@ -129,7 +129,7 @@
           ".validate": "
         					(
         					  root.child('game/updated').val() == true 
-        					    ? newData.val() == root.child('secret/red/uid').val()
+        					    ? newData.val() == root.child('secret/red/choice').val()
             					: newData.val() == data.val()
         					)
           "
