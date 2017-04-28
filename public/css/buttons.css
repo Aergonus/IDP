@@ -1,0 +1,48 @@
+.buttonLeft {
+  float: left;
+}
+.buttonRight {
+  float: right;
+}
+.buttonRed {
+  z-index: 101;
+  background-color: #F2385A;
+  text-decoration: none;
+  color: white;
+  width: 200px;
+  height: 100px;
+  position: relative;
+  margin: 30px;
+  top: 10px;
+  padding: 16px;
+  font-size: 2em;
+  border-radius: 10px;
+  box-shadow: 0px 15px 0px 0px #e8144b;
+  transition: all 0.2s;
+}
+
+.buttonRed:active {
+  box-shadow: 0px 7px 0px 0px #e8144b;
+  top: 18px;
+}
+
+.buttonBlue {
+  z-index: 101;
+  background-color: #3498DB;
+  text-decoration: none;
+  color: white;
+  width: 200px;
+  height: 100px;
+  position: relative;
+  margin: 30px;
+  top: 10px;
+  padding: 16px;
+  font-size: 2em;
+  border-radius: 10px;
+  box-shadow: 0px 15px 0px 0px #258cd1;
+  transition: all 0.2s;
+}
+.buttonBlue:active {
+  box-shadow: 0px 7px 0px 0px #258cd1;
+  top: 18px;
+}

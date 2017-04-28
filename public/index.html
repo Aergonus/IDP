@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>IPD for IDP</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="description" content="Interative Prisoner's Dilemma for Interactive Design Concepts - Made by Kangqiao Lei">
+		<link rel="shortcut icon" type="image/png" href="media/favicon.png"/>
+		<link rel="icon" type="image/x-icon" href="favicon.ico">
+		<link type="text/css" rel="stylesheet" href="css/stylesheet.css"/>
+		<link type="text/css" rel="stylesheet" href="css/buttons.css"/>
+		<link type="text/css" rel="stylesheet" href="css/gauge.css"/>
+	</head>
+	
+	<script type="text/javascript"> 
+		var debug = "It works!"; 
+		//document.getElementById("debug").textContent += "Foo blah bar";
+		console.log("Debug Text:" + debug);
+	</script>
+	
+    <body>
+	<div class="buttonLeft"><a id="blue" class="buttonBlue" href="#" onclick="take('blue');return false;">Be Blue</a></div>
+	<div class="buttonRight"><a id="red" class="buttonRed" href="#" onclick="take('red');return false;">Be Red</a></div>
+		
+		<div id="info">
+			Iterative Prisoner's Dilemma
+		</div>
+
+		
+		<div id="blocker" onclick="this.style.display = 'none'">
+			
+			<div id="instructions">
+				<span style="font-size:40px">Click to Agree</span>
+				<br />
+				What is Prisoner's Dilemma?<br />
+				
+				Only two players are allowed. Click and try to be a player. Will you defect or cooperate? <br />
+				You're agreeing to not break things.
+			</div>
+		</div>
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase-auth.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase-database.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js"></script>
+		<script type="text/javascript" src="js/init.js"></script>
+		<script type="text/javascript" src="js/test.js"></script>
+    </body>
+</html>

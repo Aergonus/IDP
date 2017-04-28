@@ -1,0 +1,199 @@
+{
+  "rules": {
+    "players": {
+      // Allow authenticated users to read
+      ".read": "auth != null",
+      "blue": {
+        // Only allows updates, no deletes, should never need to create
+        // Does not allow a player to monopolize the game
+        ".write": "newData.exists() && root.child('players/red/uid').val() != auth.uid",
+        // Require timestamp and uid fields. Allow current user a session timeout of 10 seconds
+        ".validate": "newData.hasChildren(['timestamp','uid']) &&
+                      ((data.child('uid').val() != auth.uid && now > (data.child('timestamp').val() + 10000)))",
+                      // By removing this, only allows a new user to take over, once session expires, they can't do anything
+        							//|| data.child('uid').val() == auth.uid)",
+        "timestamp": {
+          // The updated idle timeout must not be from the future and is bounded by the last timestamp
+          ".validate": "newData.isNumber()
+                     && newData.val() <= now 
+                     && newData.val() > data.val()"
+        },
+        "uid": {
+          // Only allow to update own uid
+          ".validate": "newData.val() == auth.uid"
+        },
+        "$other": { ".validate": false }
+      },
+      "red": {
+        // Only allows updates, no deletes, should never need to create
+        // Does not allow a player to monopolize the game
+        ".write": "newData.exists() && root.child('players/blue/uid').val() != auth.uid",
+        // Require timestamp and uid fields. Allow current user a session timeout of 10 seconds
+        ".validate": "newData.hasChildren(['timestamp','uid']) &&
+                      ((data.child('uid').val() != auth.uid && now > (data.child('timestamp').val() + 10000)))",
+                      // By removing this, only allows a new user to take over, once session expires, they can't do anything
+        							//|| data.child('uid').val() == auth.uid)",
+        "timestamp": {
+          // The updated idle timeout must not be from the future and is bounded by the last timestamp
+          ".validate": "newData.isNumber()
+                     && newData.val() <= now 
+                     && newData.val() > data.val()"
+        },
+        "uid": {
+          // Only allow to update own uid
+          ".validate": "newData.val() == auth.uid"
+        },
+        "$other": { ".validate": false }
+      }
+    },
+    "game": {
+      // Allow authenticated users to read & write at all times. Writes must be verified
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".validate": "newData.hasChildren(['blue','red','updated'])",
+      "updated": {
+        ".validate": "newData.isBoolean() && newData.val() != data.val()"
+      },
+      // root.child('game/updated').val() refers to updated's data.val() and serves as a toggle
+      "blue": {
+        ".validate": "newData.hasChildren(['choice','score','uid'])",
+        "score": {
+          ".validate": "
+        					(
+        					  root.child('game/updated').val() == true && 
+        					    newData.val() == data.val()
+        					)
+                  || 
+                  (
+                    root.child('game/updated').val() == false && 
+                    (
+                  			(newData.val() == data.val() + 1 && root.child('game/blue/choice').val() == true && root.child('game/red/choice').val() == true)
+                  	 || (newData.val() == data.val() + 2 && root.child('game/blue/choice').val() == false && root.child('game/red/choice').val() == true)
+                  	 || (newData.val() == data.val() - 1 && root.child('game/blue/choice').val() == true && root.child('game/red/choice').val() == false)
+              			 || (newData.val() == data.val() - 2 && root.child('game/blue/choice').val() == false && root.child('game/red/choice').val() == false)
+                    )
+                  )"
+        },
+        "uid": {
+          ".validate": "
+        					(
+        					  root.child('game/updated').val() == true && 
+        					    newData.val() == root.child('secret/blue/uid').val()
+        					)
+                  || 
+                  (
+                    root.child('game/updated').val() == false && 
+                    	newData.val() == data.val()
+            			)"
+        },
+        "choice": {
+          ".validate": "
+                  (
+                    root.child('game/updated').val() == true && 
+                      newData.val() == root.child('secret/blue/choice').val()
+                  )
+                  || 
+                  (
+                    root.child('game/updated').val() == false && 
+                      newData.val() == data.val()
+                  )"
+        },
+        "$other": { ".validate": false }
+      },
+      // root.child('game/updated').val() refers to updated's data.val() and serves as a toggle
+      "red": {
+        ".validate": "newData.hasChildren(['choice','score','uid'])",
+        "score": {
+          ".validate": "
+        					(
+        					  root.child('game/updated').val() == true && 
+        					    newData.val() == data.val()
+        					)
+                  || 
+                  (
+                    root.child('game/updated').val() == false && 
+                    (
+                  			(newData.val() == data.val() + 1 && root.child('game/red/choice').val() == true && root.child('game/blue/choice').val() == true)
+                  	 || (newData.val() == data.val() + 2 && root.child('game/red/choice').val() == false && root.child('game/blue/choice').val() == true)
+                  	 || (newData.val() == data.val() - 1 && root.child('game/red/choice').val() == true && root.child('game/blue/choice').val() == false)
+              			 || (newData.val() == data.val() - 2 && root.child('game/red/choice').val() == false && root.child('game/blue/choice').val() == false)
+                    )
+                  )"
+        },
+        "uid": {
+          ".validate": "
+        					(
+        					  root.child('game/updated').val() == true && 
+        					    newData.val() == root.child('secret/red/uid').val()
+        					)
+                  || 
+                  (
+                    root.child('game/updated').val() == false && 
+                    	newData.val() == data.val()
+            			)"
+        },
+        "choice": {
+          ".validate": "
+                  (
+                    root.child('game/updated').val() == true && 
+                      newData.val() == root.child('secret/red/choice').val()
+                  )
+                  || 
+                  (
+                    root.child('game/updated').val() == false && 
+                      newData.val() == data.val()
+                  )"
+        },
+        "$other": { ".validate": false }
+      }
+
+    },
+    "secret": {
+      // Once both turns are locked in, anyone can read and update. 
+      // One of the teams will be incentivized to update the info since their team won
+      // Note that to act as the "server" they do not need write access
+      ".read": "root.child('game/blue/uid').val() != data.child('blue/uid').val()
+      			 && root.child('game/red/uid').val()  != data.child('red/uid').val()",
+      "blue": {
+        // Only allow blue to change blue if the game.blue.uid = old.pending.bid and updated = true
+        // This allows only one player to lock in a guess and does not allow someone to overwrite it
+        // Additionally the update restriction is necessary so that the score update calculation is atomic
+        ".read": "root.child('players/blue/uid').val() == auth.uid",
+        // Do not allow user to delete the record and require that the last round be processed into the score before update
+        ".write": "newData.exists() && root.child('players/blue/uid').val() == auth.uid && root.child('game/updated').val() == true",
+        ".validate": "newData.hasChildren(['choice','uid'])",
+        "choice": {
+          ".validate": "data.isBoolean()"
+        },
+        "uid": {
+          // UID should be readable, allowing public to see if current blue player has made a choice
+          // In the future TODO: allows players to see if a player is stalling incentivizing takeover
+          ".read": true,
+          ".validate": "newData.val() == auth.uid && root.child('game/blue/uid').val() == data.val()",
+            // Note that the player is restricted from changing their guess :(
+        },
+        "$other": { ".validate": false }
+      },
+      "red": {
+        // Only allow red to change red if the game.red.uid = old.pending.rid and updated = true
+        // This allows only one player to lock in a guess and does not allow someone to overwrite it
+        // Additionally the update restriction is necessary so that the score update calculation is atomic
+        ".read": "root.child('players/red/uid').val() == auth.uid",
+        // Do not allow user to delete the record and require that the last round be processed into the score before update
+        ".write": "newData.exists() && root.child('players/red/uid').val() == auth.uid && root.child('game/updated').val() == true",
+        ".validate": "newData.hasChildren(['choice','uid'])",
+        "choice": {
+          ".validate": "data.isBoolean()"
+        },
+        "uid": {
+          // UID should be readable, allowing public to see if current red player has made a choice
+          // In the future TODO: allows players to see if a player is stalling incentivizing takeover
+          ".read": true,
+          ".validate": "newData.val() == auth.uid && root.child('game/red/uid').val() == data.val()",
+            // Note that the player is restricted from changing their guess :(
+        },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}
