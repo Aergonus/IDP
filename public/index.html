@@ -8,6 +8,7 @@
 		<link rel="shortcut icon" type="image/png" href="media/favicon.png"/>
 		<link rel="icon" type="image/x-icon" href="favicon.ico">
 		<link type="text/css" rel="stylesheet" href="css/stylesheet.css"/>
+		<link type="text/css" rel="stylesheet" href="css/notepad.css"/>
 		<link type="text/css" rel="stylesheet" href="css/buttons.css"/>
 		<link type="text/css" rel="stylesheet" href="css/gauge.css"/>
 	</head>
@@ -25,19 +26,76 @@
 		<div id="info">
 			Iterative Prisoner's Dilemma
 		</div>
-
-		
+<div id="offers" style="display:none;">
+	<div class="leftoffer">
+		<div class="leftnotepad" onclick="guess(false)">
+		  <div class="notepad-top"></div>
+			<div class ="offer"> No Deal </div>
+		<div class="notepad-content">
+			<div class="notepad-content-right"></div>
+			<div class="notepad-content-right"></div>
+		  </div>
+		  <div class="notepad-content">
+			<div class="notepad-content-right"></div>
+			<div class="notepad-content-right"></div>
+		  </div>
+		  <div class="notepad-content">
+			<div class="notepad-content-right"></div>
+			<div class="notepad-content-right"></div>
+		  </div>
+			<div class="notepad-content">
+			<div class="notepad-content-left"><span id="leftoffer"></span></div>
+			<div class="notepad-content-right"></div>
+		  </div>
+		</div>
+	</div>
+	<div class="rightoffer">
+		<div class="rightnotepad" onclick="guess(true)">
+		  <div class="notepad-top"></div>
+			<div class ="offer"> Deal </div>
+		<div class="notepad-content">
+			<div class="notepad-content-right"></div>
+			<div class="notepad-content-right"></div>
+		  </div>
+		  <div class="notepad-content">
+			<div class="notepad-content-right"></div>
+			<div class="notepad-content-right"></div>
+		  </div>
+		  <div class="notepad-content">
+			<div class="notepad-content-right"></div>
+			<div class="notepad-content-right"></div>
+		  </div>
+			<div class="notepad-content">
+			<div class="notepad-content-left"><span id="rightoffer"></span></div>
+			<div class="notepad-content-right"></div>
+		  </div>
+		</div>
+	</div>
+	<div class="pencil">
+	  <div class="pencil-top"></div>
+	  <div class="pencil-middle"></div>
+	  <div class="pencil-bottom"></div>
+	</div>
+</div>
 		<div id="blocker" onclick="this.style.display = 'none'">
 			
 			<div id="instructions">
-				<span style="font-size:40px">Click to Agree</span>
+				<span style="font-size:40px">Iterative Prisoner's Dilemma</span>
+				<br />
 				<br />
 				What is Prisoner's Dilemma?<br />
 				
-				Only two players are allowed. Click and try to be a player. Will you defect or cooperate? <br />
-				You're agreeing to not break things.
+				Only two players are allowed.<br />
+				Click and try to be a player.<br />
+				Will you defect or cooperate? <br />
+				When you commit, you commit. <br />
+				<br />
+				<br />
+				Updates only show when both sides have locked in their decision <br />
 			</div>
 		</div>
+
+
 		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
 		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js"></script>
 		<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.9.0/firebase-auth.js"></script>

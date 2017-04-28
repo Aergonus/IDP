@@ -1,0 +1,156 @@
+/* general styles */
+
+.rightnotepad {
+  width: 220px;
+  height: 248px;
+  background-color: #F2F2F2;
+  border: 15px solid #CCCCCC;
+  border-radius: 12px;
+  position: absolute;
+  padding: 20px 24px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+	position: fixed;
+	top: 50%;
+	left: 80%;
+	transform: translate(-50%, -50%);
+}
+
+.leftnotepad {
+  width: 220px;
+  height: 248px;
+  background-color: #F2F2F2;
+  border: 15px solid #CCCCCC;
+  border-radius: 12px;
+  position: absolute;
+  padding: 20px 24px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+	position: fixed;
+	top: 50%;
+	left: 20%;
+	transform: translate(-50%, -50%);
+}
+
+.notepad-top {
+  width: 110px;
+  height: 38px;
+  background-color: #40596B;
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  margin-left: -55px;
+  border-radius: 12px 12px 0 0;
+}
+
+.notepad-top:before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border: 10px solid #40596B;
+  border-radius: 50%;
+  top: -18px;
+  left: 50%;
+  margin-left: -18px;
+}
+.Deal {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  color: green;
+}
+.offer {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+}
+.notepad-content {
+  height: 36px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notepad-content-left {
+  height: 100%;
+  width: 36px;
+  background-color: #54C0EB;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+.notepad-content-left span {
+  display: block;
+  position: relative;
+  font-size: 2.5em;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.notepad-content-right {
+  width: 102px;
+  height: 16px;
+  background-color: #ACB3BA;
+}
+
+.pencil {
+  width: 36px;
+  height: 248px;
+  display: flex;
+  flex-direction: column;
+  	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.pencil-top {
+  background-color: #40596B;
+  width: 100%;
+  height: 50px;
+  border-radius: 12px 12px 0 0;
+  border-bottom: 14px solid #F2F2F2;
+}
+
+.pencil-middle {
+  background-color: #EEECC7;
+  width: 100%;
+  flex: 1;
+}
+
+.pencil-bottom {
+  width: 100%;
+  height: 42px;
+  position: relative;
+}
+
+.pencil-bottom:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 42px 18px 0 18px;
+  border-color: #ffd15c transparent transparent transparent;
+}
+
+.pencil-bottom:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  margin-left: -9px;
+  bottom: 1px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 20px 9px 0 9px;
+  border-color: #334A5E transparent transparent transparent;
+}
